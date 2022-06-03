@@ -1,9 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".DetailsFragment">
 
+    <Toolbar
+        android:id="@+id/detailsFragmentToolbar"
+        style="@style/PokemonToolbarTheme"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:title="@string/pokemon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <View
+        android:id="@+id/toolbarDividerView"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/divider_grey_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detailsFragmentToolbar" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/pokemonAvatarImageView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_normal_16"
+        android:contentDescription="@string/pokemon_avatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbarDividerView"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/pokemonNameTextView"
+        style="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_small_8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pokemonAvatarImageView"
+        tools:text="@tools:sample/first_names" />
+
+    <ImageView
+        android:id="@+id/weightIconImageView"
+        android:layout_width="@dimen/weight_and_height_icons_50"
+        android:layout_height="@dimen/weight_and_height_icons_50"
+        android:layout_marginTop="@dimen/spacing_small_8"
+        android:contentDescription="@string/weight_icon"
+        app:layout_constraintEnd_toStartOf="@id/iconDividerView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pokemonNameTextView"
+        tools:src="@tools:sample/avatars" />
+
+    <View
+        android:id="@+id/iconDividerView"
+        android:layout_width="3dp"
+        android:layout_height="@dimen/weight_and_height_icons_50"
+        android:background="@color/divider_grey_color"
+        app:layout_constraintEnd_toStartOf="@id/heightIconImageView"
+        app:layout_constraintStart_toEndOf="@id/weightIconImageView"
+        app:layout_constraintTop_toTopOf="@id/weightIconImageView" />
+
+    <ImageView
+        android:id="@+id/heightIconImageView"
+        android:layout_width="@dimen/weight_and_height_icons_50"
+        android:layout_height="@dimen/weight_and_height_icons_50"
+        android:contentDescription="@string/height_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iconDividerView"
+        app:layout_constraintTop_toTopOf="@id/weightIconImageView"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/weightTextView"
+        style="@style/TextAppearance.MaterialComponents.Body2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_small_8"
+        app:layout_constraintEnd_toEndOf="@id/weightIconImageView"
+        app:layout_constraintStart_toStartOf="@id/weightIconImageView"
+        app:layout_constraintTop_toBottomOf="@id/weightIconImageView"
+        tools:text="20.0" />
+
+    <TextView
+        android:id="@+id/heightTextView"
+        style="@style/TextAppearance.MaterialComponents.Body2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_small_8"
+        app:layout_constraintEnd_toEndOf="@id/heightIconImageView"
+        app:layout_constraintStart_toStartOf="@id/heightIconImageView"
+        app:layout_constraintTop_toBottomOf="@id/heightIconImageView"
+        tools:text="1.0" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/detailsRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_normal_16"
+        android:layout_marginTop="@dimen/spacing_small_8"
+        android:layout_marginEnd="@dimen/spacing_normal_16"
+        android:orientation="vertical"
+        android:overScrollMode="never"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/heightTextView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

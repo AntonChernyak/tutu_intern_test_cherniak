@@ -6,9 +6,7 @@ import com.example.domain.model_dto.PokemonsResponse
 import com.example.domain.repository.PokemonRemoteRepositoryInterface
 import kotlinx.coroutines.flow.Flow
 
-class PokemonRemoteRepository(private val pokemonApi: PokemonApiInterface) :
-
-    PokemonRemoteRepositoryInterface {
+class PokemonRemoteRepository(private val pokemonApi: PokemonApiInterface) : PokemonRemoteRepositoryInterface {
 
     override suspend fun getPokemons(offset: String, limit: String): Flow<PokemonsResponse> {
         return pokemonApi.getPokemons(offset, limit)

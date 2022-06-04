@@ -15,6 +15,8 @@ class PokemonsListInteractor(val remoteRepository: PokemonRemoteRepositoryInterf
     // Нужно тут сделать Enum - его в VM. Если список пустой и после БД, то через Enum отпарвить состояние, что
     // нужно отобразить плашку - добавить её и loader (shimmer). Также сразу добавить Toolbar
 
+    // Найти картинки для Деталей
+
     // Использовать Dagger, сначала только там, где создаются зависимости, потом в Дата и Домейн
 
     // Unit на Usecase с Mockito, Espresso

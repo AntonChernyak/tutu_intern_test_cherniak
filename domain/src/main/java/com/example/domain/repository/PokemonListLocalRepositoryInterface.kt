@@ -3,7 +3,7 @@ package com.example.domain.repository
 import com.example.domain.models.model_vo.PokemonDetailsVo
 import com.example.domain.models.model_vo.PokemonListVo
 
-interface PokemonLocalRepositoryInterface {
+interface PokemonListLocalRepositoryInterface {
 
     suspend fun addPokemon(pokemonDetailsVo: PokemonDetailsVo)
 

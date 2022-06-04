@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.example.data.repository.PokemonRemoteRepository
+import com.example.domain.interactors.PokemonsListInteractor
 import com.example.domain.models.model_vo.PokemonListVo
 import com.example.tutu_intern_test_cherniak.R
 import com.example.tutu_intern_test_cherniak.databinding.FragmentListBinding

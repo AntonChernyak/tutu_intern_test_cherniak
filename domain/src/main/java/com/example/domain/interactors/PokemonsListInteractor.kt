@@ -2,22 +2,16 @@ package com.example.domain.interactors
 
 import com.example.domain.mapper.PokemonDetailsDtoToVoMapper
 import com.example.domain.mapper.PokemonListItemMapper
-import com.example.domain.models.model_dto.PokemonDto
-import com.example.domain.models.model_dto.PokemonsResponse
 import com.example.domain.models.model_vo.PokemonDetailsVo
 import com.example.domain.models.model_vo.PokemonListVo
-import com.example.domain.repository.PokemonLocalRepositoryInterface
+import com.example.domain.repository.PokemonListLocalRepositoryInterface
 import com.example.domain.repository.PokemonRemoteRepositoryInterface
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMap
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.withContext
 
 class PokemonsListInteractor(
     val remoteRepository: PokemonRemoteRepositoryInterface,
-    val pokemonLocalRepository: PokemonLocalRepositoryInterface,
+    val pokemonLocalRepository: PokemonListLocalRepositoryInterface,
     val pokemonListItemMapper: PokemonListItemMapper,
     val pokemonDetailsDtoToVoMapper: PokemonDetailsDtoToVoMapper
 ) {
@@ -38,6 +32,10 @@ class PokemonsListInteractor(
     // запрос на новый getItems делать если есть сеть, иначе он из БД добавит
 
     // Или ListAdapter, или как-нибудь AsyncLisDiffer или PagingLibrary
+
+    // context в даггер по нормальному передать, убрать depricated
+
+    // Версии либ в отдельный файл
 
     // Unit на Usecase с Mockito, Espresso
 

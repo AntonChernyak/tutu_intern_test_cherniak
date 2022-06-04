@@ -16,7 +16,7 @@ interface PokemonDao {
     suspend fun addPokemonToDb(pokemonDetailsVo: PokemonDetailsVo)
 
     @Query("SELECT * FROM $POKEMONS_TABLE_NAME")
-    suspend fun getAllPokemonsFromDbToListFragment(): Flow<List<PokemonDetailsVo>>
+    suspend fun getAllPokemonsFromDbToListFragment(): List<PokemonDetailsVo>
 
     // mb:
     @Query("SELECT name, avatar_url FROM $POKEMONS_TABLE_NAME")

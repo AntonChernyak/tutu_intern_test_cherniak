@@ -1,10 +1,11 @@
-package com.example.tutu_intern_test_cherniak
+package com.example.tutu_intern_test_cherniak.details
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.tutu_intern_test_cherniak.R
 
 class DetailsFragment : Fragment() {
 

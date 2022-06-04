@@ -8,11 +8,11 @@ import kotlinx.coroutines.flow.Flow
 
 class PokemonRemoteRepository(private val pokemonApi: PokemonApiInterface) : PokemonRemoteRepositoryInterface {
 
-    override suspend fun getPokemons(offset: String, limit: String): Flow<PokemonsResponse> {
+    override suspend fun getPokemons(offset: String, limit: String): PokemonsResponse {
         return pokemonApi.getPokemons(offset, limit)
     }
 
-    override suspend fun getPokemonByNameOrId(nameOrId: String): Flow<PokemonDto> {
+    override suspend fun getPokemonByNameOrId(nameOrId: String): PokemonDto {
         return pokemonApi.getPokemonByNameOrId(nameOrId)
     }
 

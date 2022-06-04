@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface PokemonRemoteRepositoryInterface {
 
-    suspend fun getPokemons(offset: String, limit: String): Flow<PokemonsResponse>
+    suspend fun getPokemons(offset: String, limit: String): PokemonsResponse
 
-    suspend fun getPokemonByNameOrId(nameOrId: String): Flow<PokemonDto>
+    suspend fun getPokemonByNameOrId(nameOrId: String): PokemonDto
 }

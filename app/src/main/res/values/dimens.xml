@@ -7,4 +7,8 @@
     <dimen name="spacing_tiny_4">4dp</dimen>
 
     <dimen name="weight_and_height_icons_50">50dp</dimen>
+    <dimen name="item_avatar_size">128dp</dimen>
+    <dimen name="item_card_corner_radius_16">16dp</dimen>
+    <dimen name="item_card_elevation_8">8dp</dimen>
+    <dimen name="item_avatar_elevation_4">4dp</dimen>
 </resources>

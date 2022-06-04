@@ -39,6 +39,8 @@ class PokemonsListInteractor(
 
     // Unit на Usecase с Mockito, Espresso
 
+    // colabsing аватарки на детали
+
     // Тут одинаковое действие - по енаму, в метод бы
     private val pokemonVoList = mutableListOf<PokemonListVo>()
     private var uiStateEnum = UIStateEnum.DEFAULT

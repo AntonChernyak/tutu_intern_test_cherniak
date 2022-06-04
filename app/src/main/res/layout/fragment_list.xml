@@ -8,6 +8,6 @@
     android:orientation="vertical"
     android:overScrollMode="never"
     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-    tools:context=".list.ListFragment"
+    tools:context=".presentation.list.ListFragment"
     tools:itemCount="5"
     tools:listitem="@tools:sample/avatars" />

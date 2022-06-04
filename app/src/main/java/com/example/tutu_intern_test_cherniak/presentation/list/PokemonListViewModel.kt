@@ -1,11 +1,10 @@
-package com.example.tutu_intern_test_cherniak.list
+package com.example.tutu_intern_test_cherniak.presentation.list
 
 import androidx.lifecycle.*
 import com.example.domain.interactors.PokemonsListInteractor
 import com.example.domain.interactors.UIStateEnum
 import com.example.domain.models.model_vo.PokemonListVo
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.launch
 
 class PokemonListViewModel(private val pokemonsListInteractor: PokemonsListInteractor) :

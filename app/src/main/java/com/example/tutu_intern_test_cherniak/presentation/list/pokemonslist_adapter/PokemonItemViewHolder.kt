@@ -1,4 +1,4 @@
-package com.example.tutu_intern_test_cherniak.presentation.list.pokemonListAdapter
+package com.example.tutu_intern_test_cherniak.presentation.list.pokemonslist_adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.models.model_vo.PokemonListVo

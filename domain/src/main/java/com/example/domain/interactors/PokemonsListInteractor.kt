@@ -37,11 +37,16 @@ class PokemonsListInteractor(
 
     // запрос на новый getItems делать если есть сеть, иначе он из БД добавит
 
+    // Или ListAdapter, или как-нибудь AsyncLisDiffer или PagingLibrary
+
     // Unit на Usecase с Mockito, Espresso
 
     // colabsing аватарки на детали
 
     // Тут одинаковое действие - по енаму, в метод бы
+
+    // Передавать имена и name через аргументы
+
     private val pokemonVoList = mutableListOf<PokemonListVo>()
     private var uiStateEnum = UIStateEnum.DEFAULT
 

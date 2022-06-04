@@ -1,8 +1,8 @@
 package com.example.data.repository
 
 import com.example.data.network.PokemonApiInterface
-import com.example.domain.model_dto.PokemonDto
-import com.example.domain.model_dto.PokemonsResponse
+import com.example.domain.models.model_dto.PokemonDto
+import com.example.domain.models.model_dto.PokemonsResponse
 import com.example.domain.repository.PokemonRemoteRepositoryInterface
 import kotlinx.coroutines.flow.Flow
 

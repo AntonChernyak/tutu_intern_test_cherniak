@@ -4,6 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.data.database.model_vo.PokemonDetailsVo.Companion.POKEMONS_TABLE_NAME
+import com.example.domain.models.model_vo.AbilityVo
+import com.example.domain.models.model_vo.ItemsVo
+import com.example.domain.models.model_vo.StatVo
 
 @Entity(tableName = POKEMONS_TABLE_NAME)
 data class PokemonDetailsVo(

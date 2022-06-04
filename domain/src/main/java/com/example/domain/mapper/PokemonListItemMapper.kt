@@ -1,7 +1,7 @@
-package com.example.data.mapper
+package com.example.domain.mapper
 
-import com.example.domain.model_dto.PokemonDto
-import com.example.data.database.model_vo.PokemonListVo
+import com.example.domain.models.model_dto.PokemonDto
+import com.example.domain.models.model_vo.PokemonListVo
 
 class PokemonListItemMapper: MapperInterface<PokemonListVo, PokemonDto> {
 

@@ -1,10 +1,9 @@
 package com.example.domain.interactors
 
-import com.example.domain.model_dto.PokemonDto
-import com.example.domain.model_dto.PokemonsResponse
+import com.example.domain.models.model_dto.PokemonDto
+import com.example.domain.models.model_dto.PokemonsResponse
 import com.example.domain.repository.PokemonRemoteRepositoryInterface
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 class PokemonsListInteractor(val remoteRepository: PokemonRemoteRepositoryInterface) {
 

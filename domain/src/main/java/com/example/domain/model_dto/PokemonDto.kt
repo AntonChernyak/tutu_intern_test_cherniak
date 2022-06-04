@@ -13,5 +13,5 @@ class PokemonDto(
     @SerialName("held_items")
     val heldItems: List<ItemResponse>,
     val stats: List<StatsResponse>,
-    val sprites: List<SpriteDto>
+    val sprites: SpriteDto
 )

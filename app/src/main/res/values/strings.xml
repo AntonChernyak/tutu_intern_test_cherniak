@@ -5,4 +5,5 @@
     <string name="height_icon">height_icon</string>
     <string name="pokemon">Покемон</string>
     <string name="weight">Вес</string>
+    <string name="pokemons_list">Список покемонов</string>
 </resources>

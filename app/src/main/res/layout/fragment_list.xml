@@ -1,13 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/listRecyclerView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:overScrollMode="never"
-    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-    tools:context=".presentation.list.ListFragment"
-    tools:itemCount="5"
-    tools:listitem="@tools:sample/avatars" />
+    android:orientation="vertical">
+
+    <Toolbar
+        android:id="@+id/listFragmentToolbar"
+        style="@style/PokemonToolbarTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/primary_color_green"
+        android:title="@string/pokemons_list" />
+
+    <View
+        style="@style/ToolbarDividerTheme"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_divider_1" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:overScrollMode="never"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"
+        tools:itemCount="5"
+        tools:listitem="@layout/item_pokemon" />
+
+</LinearLayout>

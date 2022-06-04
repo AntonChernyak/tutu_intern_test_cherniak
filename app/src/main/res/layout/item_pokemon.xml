@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/spacing_tiny_4"
+    android:layout_marginTop="@dimen/spacing_small_8"
+    android:layout_marginEnd="@dimen/spacing_tiny_4"
     app:cardCornerRadius="@dimen/item_card_corner_radius_16"
-    app:cardElevation="@dimen/item_card_elevation_8"
-    app:cardUseCompatPadding="true">
+    app:cardElevation="@dimen/item_card_elevation_8">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,15 +19,15 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/itemAvatarImageView"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize10Percent"
             android:layout_width="@dimen/item_avatar_size"
             android:layout_height="@dimen/item_avatar_size"
             android:layout_gravity="center"
-            android:elevation="@dimen/item_avatar_elevation_4"
             android:contentDescription="@string/pokemon_avatar"
+            android:elevation="@dimen/item_avatar_elevation_4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize10Percent"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView

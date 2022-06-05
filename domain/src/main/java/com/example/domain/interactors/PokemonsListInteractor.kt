@@ -1,9 +1,8 @@
 package com.example.domain.interactors
 
-import com.example.domain.mapper.PokemonDetailsDtoToVoMapper
-import com.example.domain.mapper.PokemonListItemMapper
-import com.example.domain.models.model_vo.PokemonDetailsVo
-import com.example.domain.models.model_vo.PokemonListVo
+import com.example.domain.models.mapper.PokemonDetailsDtoToListItemVoMapper
+import com.example.domain.models.model_dto.PokemonDto
+import com.example.domain.models.model_vo.PokemonListItemModelVo
 import com.example.domain.repository.PokemonListLocalRepositoryInterface
 import com.example.domain.repository.PokemonListRemoteRepositoryInterface
 import kotlinx.coroutines.flow.Flow
@@ -12,8 +11,7 @@ import kotlinx.coroutines.flow.flow
 class PokemonsListInteractor(
     val remoteRepository: PokemonListRemoteRepositoryInterface,
     val pokemonLocalRepository: PokemonListLocalRepositoryInterface,
-    val pokemonListItemMapper: PokemonListItemMapper,
-    val pokemonDetailsDtoToVoMapper: PokemonDetailsDtoToVoMapper
+    val pokemonDetailDtoToListItemVoMapper: PokemonDetailsDtoToListItemVoMapper,
 ) {
 
     // mb Flow<VO> - mapper tut? Проверить какой поток тут
@@ -35,6 +33,8 @@ class PokemonsListInteractor(
 
     // context в даггер по нормальному передать, убрать depricated
 
+    // возможно, убрать запрос из БД по нескольким полям, всё равно мапим, так может 2 маппинга получается? проверить
+
     // Версии либ в отдельный файл
 
     // Unit на Usecase с Mockito, Espresso
@@ -45,10 +45,10 @@ class PokemonsListInteractor(
 
     // Передавать имена и name через аргументы
 
-    private val pokemonVoList = mutableListOf<PokemonListVo>()
+    private val pokemonVoList = mutableListOf<PokemonListItemModelVo>()
     private var uiStateEnum = UIStateEnum.DEFAULT
 
-    suspend fun getPokemons(offset: String, limit: String): List<PokemonListVo> {
+    suspend fun getPokemons(offset: String, limit: String): List<PokemonListItemModelVo> {
         pokemonVoList.clear()
         uiStateEnum = UIStateEnum.START_LOADING
         changeUiState()
@@ -56,16 +56,16 @@ class PokemonsListInteractor(
         val namesList = remoteRepository.getPokemons(offset, limit).results.map { it.name }
         // если сети нет, то грузим из БД
         if (namesList.isEmpty()) {
-            uiStateEnum= UIStateEnum.NETWORK_ERROR
+            uiStateEnum = UIStateEnum.NETWORK_ERROR
             changeUiState()
             pokemonLocalRepository.getPokemonsListWithNamesAndAvatarUrls()
         } else {
             // сеть есть - идём за картинкой к покемону
             namesList.forEach {
-                val pokemonDetailsVo = getPokemonByNameOrID(it)
-                pokemonVoList.add(pokemonListItemMapper.toViewObject(pokemonDetailsVo))
+                val pokemonDetailsDto = getPokemonByNameOrID(it)
+                pokemonVoList.add(pokemonDetailDtoToListItemVoMapper.toOutObject(pokemonDetailsDto))
                 //  заодно сразу грузим его в БД
-                pokemonLocalRepository.addPokemon(pokemonDetailsVo)
+                pokemonLocalRepository.addPokemon(pokemonDetailsDto)
             }
         }
         uiStateEnum = UIStateEnum.END_LOADING
@@ -77,9 +77,8 @@ class PokemonsListInteractor(
         return pokemonVoList
     }
 
-    suspend fun getPokemonByNameOrID(nameOrId: String): PokemonDetailsVo {
-        return pokemonDetailsDtoToVoMapper
-            .toViewObject(remoteRepository.getPokemonByNameOrId(nameOrId))
+    suspend fun getPokemonByNameOrID(nameOrId: String): PokemonDto {
+        return remoteRepository.getPokemonByNameOrId(nameOrId)
     }
 
     fun changeUiState(): Flow<UIStateEnum> {

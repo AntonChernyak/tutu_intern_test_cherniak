@@ -4,14 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.models.model_vo.PokemonListVo
+import com.example.domain.models.model_vo.PokemonListItemModelVo
 import com.example.tutu_intern_test_cherniak.databinding.ItemPokemonBinding
 
 class PokemonAdapter(
     private val itemClick: (position: Int) -> Unit
 ) : RecyclerView.Adapter<PokemonItemViewHolder>() {
 
-    var data: List<PokemonListVo> = emptyList()
+    var data: List<PokemonListItemModelVo> = emptyList()
         set(newValue) {
             val diffCallback = PokemonDiffUtilCallback(field, newValue)
             val diffResult = DiffUtil.calculateDiff(diffCallback)

@@ -89,4 +89,8 @@ class DataModule(private val appContext: App) {
     fun provideLocalDetailsRepository(dao: PokemonDao): PokemonDetailsLocalRepositoryInterface {
         return PokemonDetailsLocalRepository(dao)
     }
+
+    @Singleton
+    @Provides
+    fun provideJson() = Json { encodeDefaults = true }
 }

@@ -1,7 +1,7 @@
 package com.example.tutu_intern_test_cherniak.presentation.list.pokemonslist_adapter
 
 import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.models.model_vo.PokemonListVo
+import com.example.domain.models.model_vo.PokemonListItemModelVo
 import com.example.tutu_intern_test_cherniak.databinding.ItemPokemonBinding
 import com.example.tutu_intern_test_cherniak.presentation.extensions.loadImage
 
@@ -14,10 +14,10 @@ class PokemonItemViewHolder(
         itemView.setOnClickListener { pokemonClickListener(bindingAdapterPosition) }
     }
 
-    fun bind(pokemonItem: PokemonListVo) {
+    fun bind(pokemonItem: PokemonListItemModelVo) {
         with(itemBinding){
-            itemNameTextView.text = pokemonItem.pokemonName
-            itemAvatarImageView.loadImage(pokemonItem.pokemonAvatarUrl)
+            itemNameTextView.text = pokemonItem.name
+            itemAvatarImageView.loadImage(pokemonItem.avatarUrl)
         }
     }
 }

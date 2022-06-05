@@ -2,7 +2,6 @@ package com.example.data.network
 
 import com.example.domain.models.model_dto.PokemonDto
 import com.example.domain.models.model_dto.PokemonsResponse
-import kotlinx.coroutines.flow.Flow
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

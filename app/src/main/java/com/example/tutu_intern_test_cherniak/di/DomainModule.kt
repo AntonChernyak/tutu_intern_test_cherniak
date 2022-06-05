@@ -2,8 +2,9 @@ package com.example.tutu_intern_test_cherniak.di
 
 import com.example.domain.interactors.PokemonDetailsInteractor
 import com.example.domain.interactors.PokemonsListInteractor
-import com.example.domain.mapper.PokemonDetailsDtoToVoMapper
-import com.example.domain.mapper.PokemonListItemMapper
+import com.example.data.mapper.PokemonDetailsDtoToDetailsDbMapper
+import com.example.data.mapper.PokemonListItemModelDbToListItemModelVoMapper
+import com.example.domain.models.mapper.PokemonDetailsDtoToListItemVoMapper
 import com.example.domain.repository.PokemonDetailsLocalRepositoryInterface
 import com.example.domain.repository.PokemonListLocalRepositoryInterface
 import com.example.domain.repository.PokemonListRemoteRepositoryInterface
@@ -16,14 +17,8 @@ class DomainModule {
 
     @Provides
     @Singleton
-    fun providesDetailsVoToItemListVoMapper(): PokemonListItemMapper {
-        return PokemonListItemMapper()
-    }
-
-    @Provides
-    @Singleton
-    fun providesDetailsDtoToDetailsVoMapper(): PokemonDetailsDtoToVoMapper {
-        return PokemonDetailsDtoToVoMapper()
+    fun providesDetailsDtoToListItemVoMapper(): PokemonDetailsDtoToListItemVoMapper {
+        return PokemonDetailsDtoToListItemVoMapper()
     }
 
     @Provides
@@ -39,14 +34,12 @@ class DomainModule {
     fun providesPokemonListInteractor(
         localRepository: PokemonListLocalRepositoryInterface,
         remoteRepository: PokemonListRemoteRepositoryInterface,
-        listItemMapper: PokemonListItemMapper,
-        detailsMapper: PokemonDetailsDtoToVoMapper
+        listItemMapper: PokemonDetailsDtoToListItemVoMapper,
     ): PokemonsListInteractor {
         return PokemonsListInteractor(
             remoteRepository,
             localRepository,
-            listItemMapper,
-            detailsMapper
+            listItemMapper
         )
     }
 }

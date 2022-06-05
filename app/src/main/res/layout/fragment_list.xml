@@ -19,15 +19,49 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_divider_1" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listRecyclerView"
+    <TextView
+        android:id="@+id/noNetworkTextView"
+        style="@style/TextAppearance.MaterialComponents.Body2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:overScrollMode="never"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="2"
-        tools:itemCount="5"
-        tools:listitem="@layout/item_pokemon" />
+        android:layout_height="wrap_content"
+        android:background="@color/design_default_color_error"
+        android:gravity="center"
+        android:text="@string/no_network"
+        android:visibility="gone" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/listRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:overScrollMode="never"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            tools:itemCount="5"
+            tools:listitem="@layout/item_pokemon" />
+
+        <ProgressBar
+            android:id="@+id/listProgressBar"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:indeterminateTint="@color/grey_224"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/noDataTextView"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/no_data"
+            android:visibility="gone" />
+
+    </FrameLayout>
 
 </LinearLayout>

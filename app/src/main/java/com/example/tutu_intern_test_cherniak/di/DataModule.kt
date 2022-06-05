@@ -9,7 +9,7 @@ import com.example.data.repository.PokemonListLocalRepository
 import com.example.data.repository.PokemonRemoteRepository
 import com.example.domain.repository.PokemonDetailsLocalRepositoryInterface
 import com.example.domain.repository.PokemonListLocalRepositoryInterface
-import com.example.domain.repository.PokemonRemoteRepositoryInterface
+import com.example.domain.repository.PokemonListRemoteRepositoryInterface
 import com.example.tutu_intern_test_cherniak.App
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
@@ -55,7 +55,7 @@ class DataModule(private val appContext: App) {
 
     @Singleton
     @Provides
-    fun provideRemoteRepository(api: PokemonApiInterface): PokemonRemoteRepositoryInterface {
+    fun provideRemoteRepository(api: PokemonApiInterface): PokemonListRemoteRepositoryInterface {
         return PokemonRemoteRepository(api)
     }
 

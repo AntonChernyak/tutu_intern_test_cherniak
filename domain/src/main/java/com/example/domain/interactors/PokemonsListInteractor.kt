@@ -5,12 +5,12 @@ import com.example.domain.mapper.PokemonListItemMapper
 import com.example.domain.models.model_vo.PokemonDetailsVo
 import com.example.domain.models.model_vo.PokemonListVo
 import com.example.domain.repository.PokemonListLocalRepositoryInterface
-import com.example.domain.repository.PokemonRemoteRepositoryInterface
+import com.example.domain.repository.PokemonListRemoteRepositoryInterface
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class PokemonsListInteractor(
-    val remoteRepository: PokemonRemoteRepositoryInterface,
+    val remoteRepository: PokemonListRemoteRepositoryInterface,
     val pokemonLocalRepository: PokemonListLocalRepositoryInterface,
     val pokemonListItemMapper: PokemonListItemMapper,
     val pokemonDetailsDtoToVoMapper: PokemonDetailsDtoToVoMapper

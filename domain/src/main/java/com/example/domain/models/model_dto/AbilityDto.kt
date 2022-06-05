@@ -4,13 +4,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 class AbilityResponse(
-    val isHidden: Boolean,
-    val slot: Int,
-    val ability: List<AbilityDto>
+    val ability: AbilityDto
 )
 
 @Serializable
 class AbilityDto(
     val name: String,
-    val url: String
 )

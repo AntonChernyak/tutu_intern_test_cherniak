@@ -2,6 +2,7 @@ package com.example.domain.interactors
 
 import com.example.domain.models.mapper.PokemonDetailsDtoToListItemVoMapper
 import com.example.domain.models.model_dto.PokemonDto
+import com.example.domain.models.model_vo.PokemonListData
 import com.example.domain.models.model_vo.PokemonListItemModelVo
 import com.example.domain.repository.PokemonListLocalRepositoryInterface
 import com.example.domain.repository.PokemonListRemoteRepositoryInterface
@@ -9,21 +10,20 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class PokemonsListInteractor(
-    val remoteRepository: PokemonListRemoteRepositoryInterface,
-    val pokemonLocalRepository: PokemonListLocalRepositoryInterface,
-    val pokemonDetailDtoToListItemVoMapper: PokemonDetailsDtoToListItemVoMapper,
+    private val remoteRepository: PokemonListRemoteRepositoryInterface,
+    private val pokemonLocalRepository: PokemonListLocalRepositoryInterface,
+    private val pokemonDetailDtoToListItemVoMapper: PokemonDetailsDtoToListItemVoMapper,
 ) {
 
-    // mb Flow<VO> - mapper tut? Проверить какой поток тут
-    // Всё гразим в БД в фоне, а из экрана с детали - запрос БД
-    // Если список не пустой, то сохраняем в БД, если сети нет, то из него. Есть - чистим БД, сохраняем новые
-
-    // Нужно тут сделать Enum - его в VM. Если список пустой и после БД, то через Enum отпарвить состояние, что
     // нужно отобразить плашку - добавить её и loader (shimmer). Также сразу добавить Toolbar
 
     // Найти картинки для Деталей
 
+    // выделить методы из этого огромного
+
     // Использовать Dagger, сначала только там, где создаются зависимости, потом в Дата и Домейн
+
+    // Subcomponent для VM
 
     // при запуске если есть сеть, псоле загрузки данных чистить БД
 
@@ -31,9 +31,9 @@ class PokemonsListInteractor(
 
     // Или ListAdapter, или как-нибудь AsyncLisDiffer или PagingLibrary
 
-    // context в даггер по нормальному передать, убрать depricated
+    // ConcatAdapter или ещё что
 
-    // возможно, убрать запрос из БД по нескольким полям, всё равно мапим, так может 2 маппинга получается? проверить
+    // context в даггер по нормальному передать, убрать depricated
 
     // Версии либ в отдельный файл
 
@@ -48,12 +48,24 @@ class PokemonsListInteractor(
     private val pokemonVoList = mutableListOf<PokemonListItemModelVo>()
     private var uiStateEnum = UIStateEnum.DEFAULT
 
-    suspend fun getPokemons(offset: String, limit: String): List<PokemonListItemModelVo> {
+    private fun getOffsetString(url: String?): String? {
+        return url?.substringAfter("=")?.substringBefore("&")
+    }
+    private fun getLimitString(url: String?): String {
+        return url?.substringAfterLast("=") ?: "0"
+    }
+
+    suspend fun getPokemons(offset: String, limit: String): PokemonListData {
         pokemonVoList.clear()
         uiStateEnum = UIStateEnum.START_LOADING
         changeUiState()
 
-        val namesList = remoteRepository.getPokemons(offset, limit).results.map { it.name }
+        val pokemonResponse = remoteRepository.getPokemons(offset, limit)
+        val pOffset = getOffsetString(pokemonResponse.previous)
+        val nOffset = getOffsetString(pokemonResponse.next)
+        val pLimit = getLimitString(pokemonResponse.previous)
+        val nLimit = getLimitString(pokemonResponse.next)
+        val namesList = pokemonResponse.results.map { it.name }
         // если сети нет, то грузим из БД
         if (namesList.isEmpty()) {
             uiStateEnum = UIStateEnum.NETWORK_ERROR
@@ -74,7 +86,13 @@ class PokemonsListInteractor(
             uiStateEnum = UIStateEnum.DATA_NOT_FOUND
             changeUiState()
         }
-        return pokemonVoList
+        return PokemonListData(
+            previousOffset = pOffset,
+            nextOffset = nOffset,
+            itemListVo = pokemonVoList,
+            nextLimit = nLimit,
+            previousLimit = pLimit
+        )
     }
 
     suspend fun getPokemonByNameOrID(nameOrId: String): PokemonDto {

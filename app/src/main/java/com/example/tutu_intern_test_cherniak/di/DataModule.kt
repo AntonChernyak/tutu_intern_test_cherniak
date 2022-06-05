@@ -3,6 +3,9 @@ package com.example.tutu_intern_test_cherniak.di
 import androidx.room.Room
 import com.example.data.database.PokemonDao
 import com.example.data.database.PokemonDatabase
+import com.example.data.mapper.PokemonDetailsDbToDetailsVoMapper
+import com.example.data.mapper.PokemonDetailsDtoToDetailsDbMapper
+import com.example.data.mapper.PokemonListItemModelDbToListItemModelVoMapper
 import com.example.data.network.PokemonApiInterface
 import com.example.data.repository.PokemonDetailsLocalRepository
 import com.example.data.repository.PokemonListLocalRepository
@@ -33,6 +36,13 @@ class DataModule(private val appContext: App) {
     @Singleton
     fun provideApp() = appContext
 
+    @Singleton
+    @Provides
+    fun provideJson() : Json = Json {
+        encodeDefaults = true
+        ignoreUnknownKeys = true
+    }
+
     // Network
     @Provides
     @Singleton
@@ -45,11 +55,11 @@ class DataModule(private val appContext: App) {
 
     @Singleton
     @Provides
-    fun provideApiClient(client: OkHttpClient): PokemonApiInterface =
+    fun provideApiClient(client: OkHttpClient, json: Json): PokemonApiInterface =
         Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(client)
-            .addConverterFactory(Json.asConverterFactory(contentType))
+            .addConverterFactory(json.asConverterFactory(contentType))
             .build()
             .create(PokemonApiInterface::class.java)
 
@@ -74,23 +84,46 @@ class DataModule(private val appContext: App) {
 
     @Singleton
     @Provides
+    fun providePokemonDetailsDbToDetailsVoMapper(): PokemonDetailsDbToDetailsVoMapper {
+        return PokemonDetailsDbToDetailsVoMapper()
+    }
+
+    @Singleton
+    @Provides
+    fun providePokemonDetailsDtoToDetailsDbMapper(): PokemonDetailsDtoToDetailsDbMapper {
+        return PokemonDetailsDtoToDetailsDbMapper()
+    }
+
+    @Singleton
+    @Provides
+    fun providePokemonListItemModelDbToListItemModelVoMapper(): PokemonListItemModelDbToListItemModelVoMapper {
+        return PokemonListItemModelDbToListItemModelVoMapper()
+    }
+
+
+    @Singleton
+    @Provides
     fun providePokemonDao(db: PokemonDatabase): PokemonDao {
         return db.getDao()
     }
 
     @Singleton
     @Provides
-    fun provideLocalListRepository(dao: PokemonDao): PokemonListLocalRepositoryInterface {
-        return PokemonListLocalRepository(dao)
+    fun provideLocalListRepository(
+        dao: PokemonDao,
+        detailsDtoToDetailsDbMapper: PokemonDetailsDtoToDetailsDbMapper,
+        listItemDbToListItemVoMapper: PokemonListItemModelDbToListItemModelVoMapper
+    ): PokemonListLocalRepositoryInterface {
+        return PokemonListLocalRepository(dao, detailsDtoToDetailsDbMapper, listItemDbToListItemVoMapper)
     }
 
     @Singleton
     @Provides
-    fun provideLocalDetailsRepository(dao: PokemonDao): PokemonDetailsLocalRepositoryInterface {
-        return PokemonDetailsLocalRepository(dao)
+    fun provideLocalDetailsRepository(
+        dao: PokemonDao,
+        pokemonDetailsDbToDetailsVoMapper: PokemonDetailsDbToDetailsVoMapper
+    ): PokemonDetailsLocalRepositoryInterface {
+        return PokemonDetailsLocalRepository(dao, pokemonDetailsDbToDetailsVoMapper)
     }
 
-    @Singleton
-    @Provides
-    fun provideJson() = Json { encodeDefaults = true }
 }

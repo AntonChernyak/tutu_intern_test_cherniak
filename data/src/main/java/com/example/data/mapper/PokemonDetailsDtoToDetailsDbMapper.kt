@@ -7,11 +7,9 @@ import com.example.domain.models.model_dto.PokemonDto
 class PokemonDetailsDtoToDetailsDbMapper : MapperInterface<PokemonDetailsModelDb, PokemonDto> {
 
     override fun toOutObject(inObject: PokemonDto): PokemonDetailsModelDb {
-        val abilitiesVo = inObject.abilities
-            .flatMap { response -> response.ability }
-            .map { it.name }
-        val itemsVo = inObject.heldItems.flatMap { it.items }.map { it.name }
-        val statsVo = inObject.stats.flatMap { it.stat }.map { it.name }
+        val abilitiesVo = inObject.abilities.map { it.ability.name}
+        val formsVo = inObject.forms.map { it.name }
+        val statsVo = inObject.stats.map { it.stat.name}
 
         return with(inObject) {
             PokemonDetailsModelDb(
@@ -20,7 +18,7 @@ class PokemonDetailsDtoToDetailsDbMapper : MapperInterface<PokemonDetailsModelDb
                 weight = weight,
                 height = height,
                 abilities = abilitiesVo,
-                items = itemsVo,
+                forms = formsVo,
                 stats = statsVo
             )
         }

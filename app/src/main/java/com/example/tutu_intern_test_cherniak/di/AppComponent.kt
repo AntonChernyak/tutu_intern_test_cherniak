@@ -1,7 +1,6 @@
 package com.example.tutu_intern_test_cherniak.di
 
 import android.app.Application
-import com.example.data.database.typeconverters.StringsListTypeConverter
 import com.example.tutu_intern_test_cherniak.presentation.details.DetailsFragment
 import com.example.tutu_intern_test_cherniak.presentation.list.ListFragment
 import dagger.Component
@@ -16,6 +15,4 @@ interface AppComponent {
 
     fun inject(listFragment: ListFragment)
     fun inject(detailFragment: DetailsFragment)
-
-    fun inject(listTypeConverter: StringsListTypeConverter)
 }

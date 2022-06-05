@@ -6,6 +6,6 @@ data class PokemonDetailsModelVo(
     val weight: Int,
     val height: Int,
     val abilitiesNames: List<String>,
-    val itemsNames: List<String>,
+    val formsNames: List<String>,
     val statsNames: List<String>
 )

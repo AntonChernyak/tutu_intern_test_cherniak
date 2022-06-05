@@ -2,6 +2,7 @@ package com.example.tutu_intern_test_cherniak.presentation.list
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -23,6 +24,8 @@ class ListFragment : Fragment() {
     @Inject
     lateinit var listViewModel: PokemonListViewModel
 
+    private var previousOffset: String? = "0"
+    private var nextOffset: String? = "0"
     private val binding: FragmentListBinding by viewBinding()
     private val pokemonItems: List<PokemonListItemModelVo> = mutableListOf()
     private val pokemonsAdapter: PokemonAdapter by lazy {
@@ -46,9 +49,12 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setRecyclerViewSettings()
+        listViewModel.getPokemons("0", REQUEST_ITEMS_LIMIT)
 
-        listViewModel.pokemonsList.observe(viewLifecycleOwner){pokemonVoList ->
-            pokemonsAdapter.data = pokemonVoList
+        listViewModel.pokemonsList.observe(viewLifecycleOwner){pokemonData ->
+            pokemonsAdapter.data = pokemonData.itemListVo
+            previousOffset = pokemonData.previousOffset
+            nextOffset = pokemonData.nextOffset
         }
     }
 
@@ -72,6 +78,7 @@ class ListFragment : Fragment() {
     companion object {
         private const val GRID_LM_SPAN_CONT = 2
         private const val BUNDLE_NAME_KEY = "name_key"
+        private const val REQUEST_ITEMS_LIMIT = "16"
     }
 
 }

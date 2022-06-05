@@ -15,7 +15,7 @@ class PokemonDetailsDbToDetailsVoMapper:
                 weight = weight,
                 height = height,
                 abilitiesNames = abilities,
-                itemsNames = items,
+                formsNames = forms,
                 statsNames = stats
             )
         }

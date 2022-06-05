@@ -18,8 +18,8 @@ data class PokemonDetailsModelDb(
     val height: Int,
     @ColumnInfo(name = "abilities")
     val abilities: List<String>,
-    @ColumnInfo(name = "items")
-    val items: List<String>,
+    @ColumnInfo(name = "forms")
+    val forms: List<String>,
     @ColumnInfo(name = "stats")
     val stats: List<String>
 ) {

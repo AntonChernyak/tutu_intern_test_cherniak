@@ -1,18 +1,13 @@
 package com.example.domain.models.model_dto
 
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 class StatsResponse(
-    val effort: Int,
-    @SerialName("base_state")
-    val baseState: Int,
-    val stat: List<StatDto>
+    val stat: StatDto
 )
 
 @Serializable
 class StatDto(
     val name: String,
-    val url: String
 )

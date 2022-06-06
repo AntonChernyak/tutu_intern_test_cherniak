@@ -8,21 +8,19 @@ import com.example.domain.repository.PokemonListLocalRepositoryInterface
 import com.example.domain.repository.PokemonListRemoteRepositoryInterface
 import kotlinx.coroutines.flow.*
 
-class PokemonsListInteractor (
+class PokemonsListInteractor(
     private val remoteRepository: PokemonListRemoteRepositoryInterface,
     private val pokemonLocalRepository: PokemonListLocalRepositoryInterface,
     private val pokemonDetailDtoToListItemVoMapper: PokemonDetailsDtoToListItemVoMapper,
 ) {
 
-    // выделить методы из этого огромного
-
-    // Использовать Dagger, сначала только там, где создаются зависимости, потом в Дата и Домейн
-
-    // Проверка сети
-
     // Обработка ошибок
 
+    // выделить методы из этого огромного
+
     // Передавать названия и данные через NavComponent
+
+    // Проверка сети
 
     // при запуске если есть сеть, псоле загрузки данных чистить БД
 
@@ -34,21 +32,16 @@ class PokemonsListInteractor (
 
     // Unit на Usecase с Mockito, Espresso
 
-    // colabsing аватарки на детали
-
-    // Тут одинаковое действие - по енаму, в метод бы
-
-    // Передавать имена и name через аргументы
-
     // Версии либ в отдельный файл
 
     private val pokemonVoList = mutableListOf<PokemonListItemModelVo>()
     private val mUiStateMutableFlow = MutableStateFlow(UIStateEnum.DEFAULT)
-    val uiStateFlow : StateFlow<UIStateEnum> = mUiStateMutableFlow
+    val uiStateFlow: StateFlow<UIStateEnum> = mUiStateMutableFlow
 
     private fun getOffsetString(url: String?): String? {
         return url?.substringAfter("=")?.substringBefore("&")
     }
+
     private fun getLimitString(url: String?): String {
         return url?.substringAfterLast("=") ?: "0"
     }

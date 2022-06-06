@@ -9,7 +9,7 @@
         android:id="@+id/listFragment"
         android:name="com.example.tutu_intern_test_cherniak.presentation.list.PokemonListFragment"
         android:label="fragment_list"
-        tools:layout="@layout/fragment_list" >
+        tools:layout="@layout/fragment_list">
         <action
             android:id="@+id/action_listFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
@@ -18,5 +18,9 @@
         android:id="@+id/detailsFragment"
         android:name="com.example.tutu_intern_test_cherniak.presentation.details.PokemonDetailsFragment"
         android:label="fragment_details"
-        tools:layout="@layout/fragment_details" />
+        tools:layout="@layout/fragment_details">
+        <argument
+            android:name="pokemonName"
+            app:argType="string" />
+    </fragment>
 </navigation>

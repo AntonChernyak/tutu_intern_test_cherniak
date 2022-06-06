@@ -75,13 +75,10 @@ class PokemonListFragment : Fragment() {
     }
 
     private fun onPokemonItemClick(position: Int) {
-        val bundle = Bundle().apply {
-            putString(BUNDLE_NAME_KEY, pokemonItems[position].name)
-        }
-        findNavController().navigate(
-            R.id.action_listFragment_to_detailsFragment,
-            bundle
+        val directions = PokemonListFragmentDirections.actionListFragmentToDetailsFragment(
+            pokemonItems[position].name
         )
+        findNavController().navigate(directions)
     }
 
     private fun updateUiState(uiStateEnum: UIStateEnum) {

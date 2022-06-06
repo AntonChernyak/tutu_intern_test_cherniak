@@ -11,7 +11,7 @@ class PokemonDetailsDbToDetailsVoMapper:
         return with(inObject) {
             PokemonDetailsModelVo(
                 name = pokemonName,
-                avatar_url = pokemonAvatarUrl,
+                avatarUrl = pokemonAvatarUrl,
                 weight = weight,
                 height = height,
                 abilitiesNames = abilities,

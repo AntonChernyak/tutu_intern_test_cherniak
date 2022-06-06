@@ -2,7 +2,7 @@ package com.example.domain.models.model_vo
 
 data class PokemonDetailsModelVo(
     val name: String,
-    val avatar_url: String,
+    val avatarUrl: String,
     val weight: Int,
     val height: Int,
     val abilitiesNames: List<String>,

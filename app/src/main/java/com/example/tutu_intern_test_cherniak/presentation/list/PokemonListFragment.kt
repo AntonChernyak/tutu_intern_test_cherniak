@@ -97,7 +97,6 @@ class PokemonListFragment : Fragment() {
 
     companion object {
         private const val GRID_LM_SPAN_CONT = 2
-        private const val BUNDLE_NAME_KEY = "name_key"
         private const val REQUEST_ITEMS_LIMIT = "16"
     }
 

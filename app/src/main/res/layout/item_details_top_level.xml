@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:padding="@dimen/spacing_small_8"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/detailsTopLevelNameTextView"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        tools:text="Abilities" />
+
+    <ImageView
+        android:id="@+id/expandableImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:src="@drawable/ic_baseline_arrow_down_24"
+        android:contentDescription="@string/expandable_image_view" />
+
+</FrameLayout>

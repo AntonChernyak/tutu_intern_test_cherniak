@@ -18,6 +18,8 @@ class PokemonsListInteractor(
 
     // выделить методы из этого огромного
 
+    // UiState to DetailsFragment
+
     // Передавать названия и данные через NavComponent
 
     // Проверка сети

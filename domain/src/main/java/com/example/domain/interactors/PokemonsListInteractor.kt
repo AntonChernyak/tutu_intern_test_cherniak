@@ -8,21 +8,19 @@ import com.example.domain.repository.PokemonListLocalRepositoryInterface
 import com.example.domain.repository.PokemonListRemoteRepositoryInterface
 import kotlinx.coroutines.flow.*
 
-class PokemonsListInteractor(
+class PokemonsListInteractor (
     private val remoteRepository: PokemonListRemoteRepositoryInterface,
     private val pokemonLocalRepository: PokemonListLocalRepositoryInterface,
     private val pokemonDetailDtoToListItemVoMapper: PokemonDetailsDtoToListItemVoMapper,
 ) {
 
-    // Найти картинки для Деталей
-
     // выделить методы из этого огромного
 
     // Использовать Dagger, сначала только там, где создаются зависимости, потом в Дата и Домейн
 
-    // Subcomponent для VM
-
     // Проверка сети
+
+    // Обработка ошибок
 
     // Передавать названия и данные через NavComponent
 
@@ -34,8 +32,6 @@ class PokemonsListInteractor(
 
     // ConcatAdapter или ещё что
 
-    // context в даггер по нормальному передать, убрать depricated
-
     // Unit на Usecase с Mockito, Espresso
 
     // colabsing аватарки на детали
@@ -43,8 +39,6 @@ class PokemonsListInteractor(
     // Тут одинаковое действие - по енаму, в метод бы
 
     // Передавать имена и name через аргументы
-
-    // shimmer
 
     // Версии либ в отдельный файл
 
@@ -63,6 +57,7 @@ class PokemonsListInteractor(
         pokemonVoList.clear()
         mUiStateMutableFlow.value = UIStateEnum.START_LOADING
 
+        // TODO - try-catch
         val pokemonResponse = remoteRepository.getPokemons(offset, limit)
         val pOffset = getOffsetString(pokemonResponse.previous)
         val nOffset = getOffsetString(pokemonResponse.next)

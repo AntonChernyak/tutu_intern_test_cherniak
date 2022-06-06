@@ -20,7 +20,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Inject
 
 @ExperimentalSerializationApi
-class ListFragment : Fragment() {
+class PokemonListFragment : Fragment() {
 
     @Inject
     lateinit var listViewModel: PokemonListViewModel
@@ -37,7 +37,9 @@ class ListFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        (requireActivity().application as App).component.inject(this)
+        (requireActivity().application as App).component.fragmentViewModelComponentBuilder()
+            .fragment(this)
+            .build().inject(this)
     }
 
     override fun onCreateView(

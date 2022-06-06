@@ -1,5 +1,6 @@
 package com.example.tutu_intern_test_cherniak.di
 
+import android.content.Context
 import androidx.room.Room
 import com.example.data.database.PokemonDao
 import com.example.data.database.PokemonDatabase
@@ -26,15 +27,11 @@ import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @ExperimentalSerializationApi
-@Module
-class DataModule(private val appContext: App) {
+@Module(subcomponents = [FragmentViewModelComponent::class])
+class DataModule {
     private val baseUrl = "https://pokeapi.co/api/v2/"
     private val contentType = "application/json".toMediaType()
     private val pokemonDbName = "pokemons_db"
-
-    @Provides
-    @Singleton
-    fun provideApp() = appContext
 
     @Singleton
     @Provides
@@ -72,9 +69,9 @@ class DataModule(private val appContext: App) {
     // Database
     @Singleton
     @Provides
-    fun provideDb(appContext: App): PokemonDatabase {
+    fun provideDb(context: Context): PokemonDatabase {
         return Room.databaseBuilder(
-            appContext,
+            context,
             PokemonDatabase::class.java,
             pokemonDbName
         )

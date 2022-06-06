@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android/tutu/intern_test/app/src/main/res/drawable/human_male_height_variant.xml" value="0.1165" />
+        <entry key="..\:/Android/tutu/intern_test/app/src/main/res/drawable/weight_kilogram.xml" value="0.1165" />
         <entry key="..\:/Android/tutu/intern_test/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/Android/tutu/intern_test/app/src/main/res/layout/fragment_details.xml" value="0.36666666666666664" />
         <entry key="..\:/Android/tutu/intern_test/app/src/main/res/layout/fragment_list.xml" value="0.33" />

@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.tutu_intern_test_cherniak.R
 
-class DetailsFragment : Fragment() {
+class PokemonDetailsFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

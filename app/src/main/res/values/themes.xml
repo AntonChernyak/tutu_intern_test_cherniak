@@ -27,10 +27,10 @@
     <style name="PokemonToolbarTheme" parent="Widget.MaterialComponents.Toolbar">
         <item name="android:textSize">22sp</item>
         <item name="android:titleTextColor">@color/white</item>
-        <item name="android:background">@color/primary_color_green</item>
+        <item name="android:background">@color/light_primary_color</item>
     </style>
 
     <style name="ToolbarDividerTheme">
-        <item name="android:background">@color/grey_224</item>
+        <item name="android:background">@color/grey_145</item>
     </style>
 </resources>

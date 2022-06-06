@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.example.domain.interactors.UIStateEnum
 import com.example.domain.models.model_vo.PokemonListItemModelVo
 import com.example.tutu_intern_test_cherniak.App
 import com.example.tutu_intern_test_cherniak.R
@@ -27,7 +28,7 @@ class ListFragment : Fragment() {
     private var previousOffset: String? = "0"
     private var nextOffset: String? = "0"
     private val binding: FragmentListBinding by viewBinding()
-    private val pokemonItems: List<PokemonListItemModelVo> = mutableListOf()
+    private val pokemonItems: MutableList<PokemonListItemModelVo> = mutableListOf()
     private val pokemonsAdapter: PokemonAdapter by lazy {
         PokemonAdapter { position ->
             onPokemonItemClick(position)
@@ -51,11 +52,17 @@ class ListFragment : Fragment() {
         setRecyclerViewSettings()
         listViewModel.getPokemons("0", REQUEST_ITEMS_LIMIT)
 
-        listViewModel.pokemonsList.observe(viewLifecycleOwner){pokemonData ->
+        listViewModel.pokemonsList.observe(viewLifecycleOwner) { pokemonData ->
             pokemonsAdapter.data = pokemonData.itemListVo
             previousOffset = pokemonData.previousOffset
             nextOffset = pokemonData.nextOffset
+            pokemonItems.addAll(pokemonData.itemListVo)
         }
+
+        listViewModel.getUiState().observe(viewLifecycleOwner) { uiState ->
+            updateUiState(uiState)
+        }
+
     }
 
     private fun setRecyclerViewSettings() {
@@ -73,6 +80,20 @@ class ListFragment : Fragment() {
             R.id.action_listFragment_to_detailsFragment,
             bundle
         )
+    }
+
+    private fun updateUiState(uiStateEnum: UIStateEnum) {
+        when (uiStateEnum) {
+            UIStateEnum.NETWORK_ERROR -> binding.noNetworkTextView.visibility = View.VISIBLE
+            UIStateEnum.START_LOADING -> binding.listProgressBar.visibility = View.VISIBLE
+            UIStateEnum.END_LOADING -> binding.listProgressBar.visibility = View.GONE
+            UIStateEnum.DATA_NOT_FOUND -> binding.noDataTextView.visibility = View.VISIBLE
+            UIStateEnum.DEFAULT -> {
+                binding.noNetworkTextView.visibility = View.GONE
+                binding.listProgressBar.visibility = View.GONE
+                binding.noDataTextView.visibility = View.GONE
+            }
+        }
     }
 
     companion object {

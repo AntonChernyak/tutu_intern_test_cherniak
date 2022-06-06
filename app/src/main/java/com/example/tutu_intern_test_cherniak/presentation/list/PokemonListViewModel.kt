@@ -13,7 +13,6 @@ class PokemonListViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var mPokemonsList = MutableLiveData<PokemonListData>()
-
     val pokemonsList: LiveData<PokemonListData> = mPokemonsList
 
     fun getPokemons(offset: String, limit: String) {
@@ -22,7 +21,8 @@ class PokemonListViewModel @Inject constructor(
         }
     }
 
-    private fun uiStateLiveData(): LiveData<UIStateEnum> {
-        return pokemonsListInteractor.changeUiState().asLiveData()
+    fun getUiState(): LiveData<UIStateEnum> {
+        return pokemonsListInteractor.uiStateFlow.asLiveData()
     }
+
 }

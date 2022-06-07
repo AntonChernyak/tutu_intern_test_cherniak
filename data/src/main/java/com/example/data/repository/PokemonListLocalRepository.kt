@@ -6,11 +6,12 @@ import com.example.data.mapper.PokemonListItemModelDbToListItemModelVoMapper
 import com.example.domain.models.model_dto.PokemonDto
 import com.example.domain.models.model_vo.PokemonListItemModelVo
 import com.example.domain.repository.PokemonListLocalRepositoryInterface
+import javax.inject.Inject
 
-class PokemonListLocalRepository(
-    val dao: PokemonDao,
-    val detailsDtoToDetailsDbMapper: PokemonDetailsDtoToDetailsDbMapper,
-    val pokemonListItemDbToListItemVo: PokemonListItemModelDbToListItemModelVoMapper
+class PokemonListLocalRepository @Inject constructor(
+    private val dao: PokemonDao,
+    private val detailsDtoToDetailsDbMapper: PokemonDetailsDtoToDetailsDbMapper,
+    private val pokemonListItemDbToListItemVo: PokemonListItemModelDbToListItemModelVoMapper
 ) : PokemonListLocalRepositoryInterface {
 
     override suspend fun addPokemon(pokemonDetailsDto: PokemonDto) {

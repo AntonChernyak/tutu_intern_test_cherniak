@@ -4,8 +4,9 @@ import com.example.data.database.PokemonDao
 import com.example.data.mapper.PokemonDetailsDbToDetailsVoMapper
 import com.example.domain.models.model_vo.PokemonDetailsModelVo
 import com.example.domain.repository.PokemonDetailsLocalRepositoryInterface
+import javax.inject.Inject
 
-class PokemonDetailsLocalRepository(
+class PokemonDetailsLocalRepository @Inject constructor(
     private val dao: PokemonDao,
     private val detailsDbToDetailsVoMapper: PokemonDetailsDbToDetailsVoMapper
 ) : PokemonDetailsLocalRepositoryInterface {

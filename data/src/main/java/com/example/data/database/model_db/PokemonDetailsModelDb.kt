@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.example.data.database.model_db.PokemonDetailsModelDb.Companion.POKEMONS_TABLE_NAME
 
 @Entity(tableName = POKEMONS_TABLE_NAME)
-data class PokemonDetailsModelDb(
+class PokemonDetailsModelDb(
     @PrimaryKey
     @ColumnInfo(name = POKEMON_NAME_COLUMN_NAME)
     val pokemonName: String,
@@ -24,7 +24,7 @@ data class PokemonDetailsModelDb(
     val stats: List<String>
 ) {
     companion object {
-        const val POKEMONS_TABLE_NAME = "pokemons-db"
+        const val POKEMONS_TABLE_NAME = "pokemons_table"
         const val POKEMON_NAME_COLUMN_NAME = "name"
         const val POKEMON_AVATAR_URL_COLUMN_NAME = "avatar_url"
     }

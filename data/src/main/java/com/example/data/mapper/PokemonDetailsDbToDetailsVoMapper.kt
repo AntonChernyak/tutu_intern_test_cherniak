@@ -7,8 +7,9 @@ import com.example.domain.models.mapper.MapperInterface
 import com.example.domain.models.model_vo.LowLevelItem
 import com.example.domain.models.model_vo.PokemonDetailsModelVo
 import com.example.domain.models.model_vo.TopLevelItem
+import javax.inject.Inject
 
-class PokemonDetailsDbToDetailsVoMapper(private val context: Context) :
+class PokemonDetailsDbToDetailsVoMapper @Inject constructor(private val context: Context) :
     MapperInterface<PokemonDetailsModelVo, PokemonDetailsModelDb> {
 
     override fun toOutObject(inObject: PokemonDetailsModelDb): PokemonDetailsModelVo {

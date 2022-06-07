@@ -1,6 +1,5 @@
 package com.example.tutu_intern_test_cherniak.presentation.details.pokemondetails_adapter
 
-import android.view.View
 import androidx.recyclerview.widget.DiffUtil
 import com.example.domain.models.model_vo.ItemDetails
 import com.example.domain.models.model_vo.TopLevelItem
@@ -9,7 +8,7 @@ import com.example.tutu_intern_test_cherniak.presentation.details.pokemondetails
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 
 
-class PokemonDetailsDiffAdapter(expandableButtonOnClick: (String, View) -> Unit) :
+class PokemonDetailsDiffAdapter(expandableButtonOnClick: (String) -> Unit) :
     AsyncListDifferDelegationAdapter<ItemDetails>(DIFF_CALLBACK) {
 
     init {

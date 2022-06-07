@@ -3,7 +3,7 @@
     <string name="pokemon_avatar">pokemonAvatar</string>
     <string name="weight_icon">weight_icon</string>
     <string name="height_icon">height_icon</string>
-    <string name="pokemon">Покемон</string>
+    <string name="pokemon">Покемон %1$s</string>
     <string name="weight">Вес</string>
     <string name="pokemons_list">Список покемонов</string>
     <string name="no_data">Данные отсутствуют</string>

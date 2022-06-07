@@ -1,6 +1,5 @@
 package com.example.tutu_intern_test_cherniak.presentation.details
 
-import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,7 +12,6 @@ import com.example.domain.models.model_vo.PokemonDetailsModelVo
 import com.example.domain.models.model_vo.TopLevelItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.collections.HashMap
 
@@ -32,7 +30,7 @@ class PokemonDetailsViewModel @Inject constructor(
     private val mUiStateLiveData = MutableLiveData<UIStateEnum>()
     val uiStateLiveData: LiveData<UIStateEnum> = mUiStateLiveData
 
-    private fun getItemDetailsList(detailsMap: Map<TopLevelItem, List<LowLevelItem>>, view: View? = null) {
+    private fun getItemDetailsList(detailsMap: Map<TopLevelItem, List<LowLevelItem>>) {
         viewModelScope.launch(Dispatchers.Default) {
             val detailsList = detailsMap.toSortedMap { p0, p1 ->
                 p1?.detailName?.let { p0?.detailName?.compareTo(it) } ?: 0
@@ -42,7 +40,6 @@ class PokemonDetailsViewModel @Inject constructor(
                 } else listOf(map.key)
             }
             mDetailsListLiveData.postValue(detailsList)
-            withContext(Dispatchers.Main){view?.isEnabled = true}
         }
     }
 
@@ -59,8 +56,7 @@ class PokemonDetailsViewModel @Inject constructor(
         }
     }
 
-    fun expandableButtonOnClick(topLevelDetailsName: String, imageButton: View) {
-        imageButton.isEnabled = false
+    fun expandableButtonOnClick(topLevelDetailsName: String) {
         val key = detailsRecyclerViewMap.keys.firstOrNull { it.detailName == topLevelDetailsName }
 
         if (key != null) {
@@ -69,7 +65,7 @@ class PokemonDetailsViewModel @Inject constructor(
             val newKey = key.copy(isExpandable = !key.isExpandable)
             detailsRecyclerViewMap[newKey] = lowList ?: listOf()
 
-            getItemDetailsList(detailsRecyclerViewMap, imageButton)
+            getItemDetailsList(detailsRecyclerViewMap)
         }
     }
 

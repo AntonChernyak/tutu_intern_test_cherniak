@@ -27,8 +27,8 @@ class PokemonDetailsFragment : Fragment() {
     private val saveArguments: PokemonDetailsFragmentArgs by navArgs()
     private val binding: FragmentDetailsBinding by viewBinding()
 
-    private val detailsRecyclerViewAdapter = PokemonDetailsDiffAdapter { name, imageButton ->
-        pokemonDetailsViewModel.expandableButtonOnClick(name, imageButton)
+    private val detailsRecyclerViewAdapter = PokemonDetailsDiffAdapter { name ->
+        pokemonDetailsViewModel.expandableButtonOnClick(name)
     }
 
     override fun onAttach(context: Context) {
@@ -48,18 +48,19 @@ class PokemonDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.detailsFragmentToolbar.title = resources.getString(R.string.pokemon, saveArguments.pokemonName)
+        setNavigateUpButtonToToolbar()
 
         pokemonDetailsViewModel.getPokemonDetailsData(saveArguments.pokemonName)
 
         pokemonDetailsViewModel.pokemonsDetailsLiveData.observe(viewLifecycleOwner) { pokemonDetails ->
             setDataToUi(pokemonDetails)
         }
+        setDataToDetailsRecyclerView()
 
         pokemonDetailsViewModel.uiStateLiveData.observe(viewLifecycleOwner) { uiState ->
             updateUiState(uiState)
         }
-        setDataToDetailsRecyclerView()
-
     }
 
     private fun setDataToUi(pokemonDetailsModelVo: PokemonDetailsModelVo) {
@@ -91,5 +92,15 @@ class PokemonDetailsFragment : Fragment() {
                 binding.detailsNoDataTextView.visibility = View.GONE
             }
         }
+    }
+
+    private fun setNavigateUpButtonToToolbar(){
+        with(binding.detailsFragmentToolbar){
+            setNavigationIcon(R.drawable.ic_arrow_back_24)
+            setNavigationOnClickListener {
+                activity?.onBackPressed()
+            }
+        }
+
     }
 }

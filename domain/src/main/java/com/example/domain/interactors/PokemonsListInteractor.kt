@@ -28,8 +28,6 @@ class PokemonsListInteractor(
 
     // Unit на Usecase с Mockito, Espresso
 
-    // Версии либ в отдельный файл
-
     private val pokemonVoList = mutableListOf<PokemonListItemModelVo>()
     private val mUiStateMutableFlow = MutableStateFlow(UIStateEnum.DEFAULT)
     val uiStateFlow: StateFlow<UIStateEnum> = mUiStateMutableFlow

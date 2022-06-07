@@ -15,6 +15,7 @@ import com.example.domain.repository.PokemonDetailsLocalRepositoryInterface
 import com.example.domain.repository.PokemonListLocalRepositoryInterface
 import com.example.domain.repository.PokemonListRemoteRepositoryInterface
 import com.example.tutu_intern_test_cherniak.App
+import com.example.tutu_intern_test_cherniak.BuildConfig
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -29,9 +30,9 @@ import javax.inject.Singleton
 @ExperimentalSerializationApi
 @Module(subcomponents = [FragmentViewModelComponent::class])
 class DataModule {
-    private val baseUrl = "https://pokeapi.co/api/v2/"
+    private val baseUrl = BuildConfig.BASE_URL
+    private val pokemonDbName =  BuildConfig.DATABASE_NAME
     private val contentType = "application/json".toMediaType()
-    private val pokemonDbName = "pokemons_db"
 
     @Singleton
     @Provides

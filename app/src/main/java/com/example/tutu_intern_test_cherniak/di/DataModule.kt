@@ -81,8 +81,8 @@ class DataModule {
 
     @Singleton
     @Provides
-    fun providePokemonDetailsDbToDetailsVoMapper(): PokemonDetailsDbToDetailsVoMapper {
-        return PokemonDetailsDbToDetailsVoMapper()
+    fun providePokemonDetailsDbToDetailsVoMapper(context: Context): PokemonDetailsDbToDetailsVoMapper {
+        return PokemonDetailsDbToDetailsVoMapper(context)
     }
 
     @Singleton

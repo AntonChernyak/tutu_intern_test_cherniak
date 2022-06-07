@@ -5,7 +5,5 @@ data class PokemonDetailsModelVo(
     val avatarUrl: String,
     val weight: Int,
     val height: Int,
-    val abilitiesNames: List<String>,
-    val formsNames: List<String>,
-    val statsNames: List<String>
+    val detailsRecyclerViewMap: HashMap<TopLevelItem, List<LowLevelItem>>
 )

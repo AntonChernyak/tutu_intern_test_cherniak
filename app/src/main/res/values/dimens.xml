@@ -13,4 +13,5 @@
     <dimen name="item_avatar_elevation_4">4dp</dimen>
     <dimen name="toolbar_divider_1">1dp</dimen>
     <dimen name="details_avatar_size_200">200dp</dimen>
+    <dimen name="progress_bar_size">64dp</dimen>
 </resources>

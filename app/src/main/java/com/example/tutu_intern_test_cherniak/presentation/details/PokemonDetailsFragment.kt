@@ -8,10 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.example.domain.interactors.UIStateEnum
 import com.example.domain.models.model_vo.PokemonDetailsModelVo
 import com.example.tutu_intern_test_cherniak.App
 import com.example.tutu_intern_test_cherniak.R
 import com.example.tutu_intern_test_cherniak.databinding.FragmentDetailsBinding
+import com.example.tutu_intern_test_cherniak.presentation.details.pokemondetails_adapter.PokemonDetailsDiffAdapter
 import com.example.tutu_intern_test_cherniak.presentation.extensions.loadImage
 import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Inject
@@ -24,6 +26,10 @@ class PokemonDetailsFragment : Fragment() {
 
     private val saveArguments: PokemonDetailsFragmentArgs by navArgs()
     private val binding: FragmentDetailsBinding by viewBinding()
+
+    private val detailsRecyclerViewAdapter = PokemonDetailsDiffAdapter { name, imageButton ->
+        pokemonDetailsViewModel.expandableButtonOnClick(name, imageButton)
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -48,6 +54,12 @@ class PokemonDetailsFragment : Fragment() {
         pokemonDetailsViewModel.pokemonsDetailsLiveData.observe(viewLifecycleOwner) { pokemonDetails ->
             setDataToUi(pokemonDetails)
         }
+
+        pokemonDetailsViewModel.uiStateLiveData.observe(viewLifecycleOwner) { uiState ->
+            updateUiState(uiState)
+        }
+        setDataToDetailsRecyclerView()
+
     }
 
     private fun setDataToUi(pokemonDetailsModelVo: PokemonDetailsModelVo) {
@@ -57,10 +69,27 @@ class PokemonDetailsFragment : Fragment() {
             weightTextView.text = pokemonDetailsModelVo.weight.toString()
             heightTextView.text = pokemonDetailsModelVo.height.toString()
         }
-        setDataToDetailsRecyclerView()
     }
 
-    private fun setDataToDetailsRecyclerView(){
+    private fun setDataToDetailsRecyclerView() {
+        binding.detailsRecyclerView.adapter = detailsRecyclerViewAdapter
+        pokemonDetailsViewModel.detailsListLiveData.observe(viewLifecycleOwner) {
+            detailsRecyclerViewAdapter.items = it
 
+        }
+    }
+
+    private fun updateUiState(uiStateEnum: UIStateEnum) {
+        when (uiStateEnum) {
+            UIStateEnum.NETWORK_ERROR -> binding.detailsNoNetworkTextView.visibility = View.VISIBLE
+            UIStateEnum.START_LOADING -> binding.detailsProgressBar.visibility = View.VISIBLE
+            UIStateEnum.END_LOADING -> binding.detailsProgressBar.visibility = View.GONE
+            UIStateEnum.DATA_NOT_FOUND -> binding.detailsNoDataTextView.visibility = View.VISIBLE
+            UIStateEnum.DEFAULT -> {
+                binding.detailsNoNetworkTextView.visibility = View.GONE
+                binding.detailsProgressBar.visibility = View.GONE
+                binding.detailsNoDataTextView.visibility = View.GONE
+            }
+        }
     }
 }

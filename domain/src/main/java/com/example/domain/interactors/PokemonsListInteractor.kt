@@ -18,9 +18,7 @@ class PokemonsListInteractor(
 
     // выделить методы из этого огромного
 
-    // UiState to DetailsFragment
-
-    // Передавать названия и данные через NavComponent
+    // Передавать названия через NavComponent
 
     // Проверка сети
 
@@ -29,8 +27,6 @@ class PokemonsListInteractor(
     // запрос на новый getItems делать если есть сеть, иначе он из БД добавит
 
     // Или ListAdapter, или как-нибудь AsyncLisDiffer или PagingLibrary
-
-    // ConcatAdapter или ещё что
 
     // Unit на Usecase с Mockito, Espresso
 

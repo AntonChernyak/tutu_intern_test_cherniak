@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="abilities">Способности</string>
+    <string name="forms">Формы</string>
+    <string name="stats">Характеристики</string>
+</resources>

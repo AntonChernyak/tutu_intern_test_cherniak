@@ -6,7 +6,7 @@
     <string name="pokemon">Покемон</string>
     <string name="weight">Вес</string>
     <string name="pokemons_list">Список покемонов</string>
-    <string name="no_data">Данные отсутствуют.</string>
+    <string name="no_data">Данные отсутствуют</string>
     <string name="no_network">Нет сети. Проверьте подключение</string>
     <string name="default_details_parameters">0</string>
     <string name="expandable_image_view">Кнопка - Открыть список</string>

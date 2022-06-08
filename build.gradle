@@ -65,4 +65,7 @@ ext{
 
     // AdapterDelegate with ViewBinding
     adapter_delegate_version = '4.3.2'
+
+    // Paging Library 3.0
+    paging_library_version = '3.2.0-alpha01'
 }

@@ -35,7 +35,7 @@ dependencies {
 
     // Test
     testImplementation "junit:junit:$rootProject.junit_version"
-    androidTestImplementation "androidx.test.ext:$rootProject.junit_ext_version"
+    androidTestImplementation "androidx.test.ext:junit-ktx:$rootProject.junit_ext_version"
 
     // kotlinx-serialization, json depend.
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$rootProject.ktx_serialization_json_version"
@@ -59,4 +59,7 @@ dependencies {
     // Dagger
     implementation "com.google.dagger:dagger:$rootProject.dagger_version"
     kapt "com.google.dagger:dagger-compiler:$rootProject.dagger_version"
+
+    // PagingLibrary 3.0
+    implementation "androidx.paging:paging-runtime-ktx:$rootProject.paging_library_version"
 }

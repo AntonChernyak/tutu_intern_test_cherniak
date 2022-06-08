@@ -22,7 +22,7 @@ class PokemonsListInteractor(
 
     // Проверка сети
 
-    // Цвета, особенно тулбара
+    // pullToRefresh
 
     // при запуске если есть сеть, псоле загрузки данных чистить БД
 
@@ -30,12 +30,13 @@ class PokemonsListInteractor(
 
     // Или ListAdapter, или как-нибудь AsyncLisDiffer или PagingLibrary
 
-    // Unit на Usecase с Mockito, Espresso
+    // Unit на Usecase с Mockito
 
     private val pokemonVoList = mutableListOf<PokemonListItemModelVo>()
     private val mUiStateMutableFlow = MutableStateFlow(UIStateEnum.DEFAULT)
     val uiStateFlow: StateFlow<UIStateEnum> = mUiStateMutableFlow
 
+    // TODO с Paging может и не надо
     private fun getOffsetString(url: String?): String? {
         return url?.substringAfter("=")?.substringBefore("&")
     }

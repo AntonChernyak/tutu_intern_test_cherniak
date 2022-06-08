@@ -11,13 +11,13 @@ class PokemonPagingSource @Inject constructor(
 ) : PagingSource<Int, PokemonListItemModelVo>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PokemonListItemModelVo> {
-        // получаем индекс загружаемой страницы (м.б. null, в этом случае загрузим первую страницу с индексом = 0)
 
         return try {
-            // получаем список покемонов
+            // получаем индекс загружаемой страницы (м.б. null, в этом случае загрузим первую страницу с индексом = 0)
             val pageOffset = params.key ?: INITIAL_OFFSET_VALUE
             val pageLimit = params.loadSize.toString()
 
+            // получаем список покемонов
             val pokemonList = listInteractor.getPokemons(pageOffset.toString(), pageLimit).itemListVo
 
             // Получили успешно - возвращаем Page

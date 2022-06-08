@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/spacing_tiny_4"
+    android:layout_marginStart="@dimen/spacing_small_8"
     android:layout_marginTop="@dimen/spacing_small_8"
-    android:layout_marginEnd="@dimen/spacing_tiny_4"
-    app:cardCornerRadius="@dimen/item_card_corner_radius_16"
+    android:layout_marginEnd="@dimen/spacing_small_8"
+    app:cardCornerRadius="@dimen/item_card_corner_radius_32"
     app:cardElevation="@dimen/item_card_elevation_8">
 
     <LinearLayout

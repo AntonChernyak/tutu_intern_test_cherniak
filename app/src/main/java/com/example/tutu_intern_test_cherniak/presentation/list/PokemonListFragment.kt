@@ -2,20 +2,27 @@ package com.example.tutu_intern_test_cherniak.presentation.list
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.domain.interactors.UIStateEnum
 import com.example.domain.models.model_vo.PokemonListItemModelVo
 import com.example.tutu_intern_test_cherniak.App
 import com.example.tutu_intern_test_cherniak.R
 import com.example.tutu_intern_test_cherniak.databinding.FragmentListBinding
-import com.example.tutu_intern_test_cherniak.presentation.list.pokemonslist_adapter.PokemonAdapter
+import com.example.tutu_intern_test_cherniak.presentation.list.pokemonslist_adapter.PokemonItemViewHolder
+import com.example.tutu_intern_test_cherniak.presentation.list.pokemonslist_adapter.PokemonLoadStateAdapter
+import com.example.tutu_intern_test_cherniak.presentation.list.pokemonslist_adapter.PokemonPagingAdapter
+import kotlinx.coroutines.launch
 import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Inject
 
@@ -24,14 +31,11 @@ class PokemonListFragment : Fragment() {
 
     @Inject
     lateinit var listViewModel: PokemonListViewModel
-
-    private var previousOffset: String? = "0"
-    private var nextOffset: String? = "0"
     private val binding: FragmentListBinding by viewBinding()
-    private val pokemonItems: MutableList<PokemonListItemModelVo> = mutableListOf()
-    private val pokemonsAdapter: PokemonAdapter by lazy {
-        PokemonAdapter { position ->
-            onPokemonItemClick(position)
+
+    private val pokemonsAdapter: PagingDataAdapter<PokemonListItemModelVo, PokemonItemViewHolder> by lazy {
+        PokemonPagingAdapter { pokemon ->
+            onPokemonItemClick(pokemon)
         }
     }
 
@@ -52,31 +56,54 @@ class PokemonListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setRecyclerViewSettings()
-        listViewModel.getPokemons("0", REQUEST_ITEMS_LIMIT)
 
-        listViewModel.pokemonsList.observe(viewLifecycleOwner) { pokemonData ->
-            pokemonsAdapter.data = pokemonData.itemListVo
-            previousOffset = pokemonData.previousOffset
-            nextOffset = pokemonData.nextOffset
-            pokemonItems.addAll(pokemonData.itemListVo)
+        listViewModel.getPokemons().observe(viewLifecycleOwner) {
+            lifecycleScope.launch {
+                pokemonsAdapter.submitData(it)
+            }
         }
 
-        listViewModel.getUiState().observe(viewLifecycleOwner) { uiState ->
+/*        listViewModel.getUiState().observe(viewLifecycleOwner) { uiState ->
             updateUiState(uiState)
-        }
+        }*/
 
     }
 
     private fun setRecyclerViewSettings() {
         binding.listRecyclerView.apply {
-            adapter = pokemonsAdapter
-            layoutManager = GridLayoutManager(requireActivity(), GRID_LM_SPAN_CONT)
+            adapter = pokemonsAdapter.withLoadStateHeaderAndFooter(
+                header = PokemonLoadStateAdapter { refreshAdapterDataButtonOnClick(it) },
+                footer = PokemonLoadStateAdapter { refreshAdapterDataButtonOnClick(it) }
+            )
+            layoutManager =
+                LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
+        }
+        setLoadStateListener()
+    }
+
+    private fun refreshAdapterDataButtonOnClick(view: View) {
+        pokemonsAdapter.refresh()
+    }
+
+    private fun setLoadStateListener() {
+        pokemonsAdapter.addLoadStateListener { state: CombinedLoadStates ->
+            val refreshState = state.refresh
+            with(binding) {
+                listRecyclerView.isVisible = refreshState != LoadState.Loading
+                listProgressBar.isVisible = refreshState == LoadState.Loading
+                if (refreshState is LoadState.Error) {
+                    noDataTextView.text = resources.getString(
+                        R.string.error_project_message,
+                        refreshState.error.localizedMessage ?: ""
+                    )
+                }
+            }
         }
     }
 
-    private fun onPokemonItemClick(position: Int) {
+    private fun onPokemonItemClick(pokemon: PokemonListItemModelVo?) {
         val directions = PokemonListFragmentDirections.actionListFragmentToDetailsFragment(
-            pokemonItems[position].name
+            pokemon?.name ?: ""
         )
         findNavController().navigate(directions)
     }
@@ -93,11 +120,6 @@ class PokemonListFragment : Fragment() {
                 binding.noDataTextView.visibility = View.GONE
             }
         }
-    }
-
-    companion object {
-        private const val GRID_LM_SPAN_CONT = 2
-        private const val REQUEST_ITEMS_LIMIT = "16"
     }
 
 }

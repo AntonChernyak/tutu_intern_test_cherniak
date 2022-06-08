@@ -7,7 +7,7 @@ import com.example.domain.models.model_vo.PokemonListItemModelVo
 import com.example.tutu_intern_test_cherniak.databinding.ItemPokemonBinding
 
 class PokemonPagingAdapter(
-    private val itemClick: (Int) -> Unit
+    private val itemClick: (PokemonListItemModelVo?) -> Unit
 ): PagingDataAdapter<PokemonListItemModelVo, PokemonItemViewHolder>(PokemonDiffUtilItemCallback()) {
 
     override fun onBindViewHolder(holder: PokemonItemViewHolder, position: Int) {

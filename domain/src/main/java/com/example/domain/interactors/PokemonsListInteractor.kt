@@ -2,6 +2,7 @@ package com.example.domain.interactors
 
 import com.example.domain.models.mapper.PokemonDetailsDtoToListItemVoMapper
 import com.example.domain.models.model_dto.PokemonDto
+import com.example.domain.models.model_dto.PokemonsResponse
 import com.example.domain.models.model_vo.PokemonListData
 import com.example.domain.models.model_vo.PokemonListItemModelVo
 import com.example.domain.repository.PokemonListLocalRepositoryInterface
@@ -14,23 +15,23 @@ class PokemonsListInteractor(
     private val pokemonDetailDtoToListItemVoMapper: PokemonDetailsDtoToListItemVoMapper,
 ) {
 
-    // Обработка ошибок
+    // Обработка ошибок и проверить повторный запрос
 
     // Почему при переходе назад идёт новый запрос
 
     // выделить методы из этого огромного
 
-    // Проверка сети
+    // Убрать лишние лоадеры и сообщения об ошибке, методы обновления ui
 
-    // pullToRefresh
+    // Проверка сети
 
     // при запуске если есть сеть, псоле загрузки данных чистить БД
 
     // запрос на новый getItems делать если есть сеть, иначе он из БД добавит
 
-    // Или ListAdapter, или как-нибудь AsyncLisDiffer или PagingLibrary
-
     // Unit на Usecase с Mockito
+
+    // TODO убрать
 
     private val pokemonVoList = mutableListOf<PokemonListItemModelVo>()
     private val mUiStateMutableFlow = MutableStateFlow(UIStateEnum.DEFAULT)
@@ -45,8 +46,14 @@ class PokemonsListInteractor(
         return url?.substringAfterLast("=") ?: "0"
     }
 
-    suspend fun getPokemons(offset: String, limit: String): PokemonListData {
-        pokemonVoList.clear()
+    suspend fun getPokemons(offset: String, limit: String): PokemonsResponse {
+        println("TAGGGGGG size = ${pokemonVoList.size}")
+        return remoteRepository.getPokemons(offset, limit)
+    }
+
+    /*suspend fun getPokemons(offset: String, limit: String): PokemonListData {
+        println("TAGGGGGG size = ${pokemonVoList.size}")
+       // pokemonVoList.clear()
         mUiStateMutableFlow.value = UIStateEnum.START_LOADING
 
         // TODO - try-catch
@@ -80,7 +87,7 @@ class PokemonsListInteractor(
             nextLimit = nLimit,
             previousLimit = pLimit
         )
-    }
+    }*/
 
     suspend fun getPokemonByNameOrID(nameOrId: String): PokemonDto {
         return remoteRepository.getPokemonByNameOrId(nameOrId)

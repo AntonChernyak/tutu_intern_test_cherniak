@@ -3,6 +3,7 @@ package com.example.data.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.domain.interactors.PokemonsListInteractor
+import com.example.domain.models.mapper.PokemonDetailsDtoToListItemVoMapper
 import com.example.domain.models.model_vo.PokemonListItemModelVo
 import javax.inject.Inject
 
@@ -18,7 +19,16 @@ class PokemonPagingSource @Inject constructor(
             val pageLimit = params.loadSize.toString()
 
             // получаем список покемонов
-            val pokemonList = listInteractor.getPokemons(pageOffset.toString(), pageLimit).itemListVo
+            val pokemonResponse = listInteractor.getPokemons(pageOffset.toString(), pageLimit)
+            val namesList = pokemonResponse.results.map { it.name }
+            val pokemonList = mutableListOf<PokemonListItemModelVo>()
+                // сеть есть - идём за картинкой к покемону
+                namesList.forEach {
+                    val pokemonDetailsDto = listInteractor.getPokemonByNameOrID(it)
+                    pokemonList.add(PokemonDetailsDtoToListItemVoMapper().toOutObject(pokemonDetailsDto))
+
+                }
+
 
             // Получили успешно - возвращаем Page
             LoadResult.Page(
@@ -55,7 +65,7 @@ class PokemonPagingSource @Inject constructor(
 
     companion object{
         const val INITIAL_OFFSET_VALUE = 0
-        const val LIMIT_SIZE = 20
+        const val LIMIT_SIZE = 10
     }
 
 }

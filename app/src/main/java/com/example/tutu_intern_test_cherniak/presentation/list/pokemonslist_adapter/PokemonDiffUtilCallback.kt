@@ -20,29 +20,3 @@ class PokemonDiffUtilItemCallback : DiffUtil.ItemCallback<PokemonListItemModelVo
         return oldItem == newItem
     }
 }
-
-/*
-class PokemonDiffUtilCallback(
-    private val oldList: List<PokemonListItemModelVo>,
-    private val newList: List<PokemonListItemModelVo>
-) : DiffUtil.Callback() {
-
-    override fun getOldListSize(): Int = oldList.size
-
-    override fun getNewListSize(): Int = newList.size
-
-    override fun areItemsTheSame(
-        oldItemPosition: Int,
-        newItemPosition: Int
-    ): Boolean {
-        return oldList[oldItemPosition].name ==
-                newList[newItemPosition].name
-    }
-
-    override fun areContentsTheSame(
-        oldItemPosition: Int,
-        newItemPosition: Int
-    ): Boolean {
-        return oldList[oldItemPosition] == newList[newItemPosition]
-    }
-}*/

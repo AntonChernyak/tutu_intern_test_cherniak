@@ -8,23 +8,21 @@ import com.example.tutu_intern_test_cherniak.presentation.extensions.loadImage
 
 class PokemonItemViewHolder(
     private val itemBinding: ItemPokemonBinding,
-    pokemonClickListener: (position: Int) -> Unit
+    val pokemonClickListener: (pokemonItem: PokemonListItemModelVo?) -> Unit
 ) : RecyclerView.ViewHolder(itemBinding.root) {
 
-    init {
-        itemView.setOnClickListener { pokemonClickListener(bindingAdapterPosition) }
-    }
-
     fun bind(pokemonItem: PokemonListItemModelVo?) {
+        itemView.setOnClickListener { pokemonClickListener(pokemonItem) }
+
         if (pokemonItem != null) {
             with(itemBinding) {
                 itemNameTextView.text = pokemonItem.name
-                itemAvatarImageView.loadImage(pokemonItem.avatarUrl)
+                itemAvatarImageView.loadImage(imageUrl = pokemonItem.avatarUrl)
             }
         } else {
             with(itemBinding) {
                 itemNameTextView.text = ""
-                itemAvatarImageView.loadImage(resources = R.drawable.error_drawable)
+                itemAvatarImageView.loadImage(resources = R.drawable.placeholder_pokemon_ball)
             }
         }
     }

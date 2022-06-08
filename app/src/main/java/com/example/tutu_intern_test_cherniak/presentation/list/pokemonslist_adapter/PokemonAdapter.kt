@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.models.model_vo.PokemonListItemModelVo
 import com.example.tutu_intern_test_cherniak.databinding.ItemPokemonBinding
 
+/*
 class PokemonAdapter(
     private val itemClick: (position: Int) -> Unit
 ) : RecyclerView.Adapter<PokemonItemViewHolder>() {
@@ -29,4 +30,4 @@ class PokemonAdapter(
     }
 
     override fun getItemCount(): Int = data.size
-}
+}*/

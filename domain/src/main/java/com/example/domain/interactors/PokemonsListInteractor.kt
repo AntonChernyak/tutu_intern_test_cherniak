@@ -2,8 +2,6 @@ package com.example.domain.interactors
 
 import com.example.domain.models.mapper.PokemonDetailsDtoToListItemVoMapper
 import com.example.domain.models.model_dto.PokemonDto
-import com.example.domain.models.model_dto.PokemonsResponse
-import com.example.domain.models.model_vo.PokemonListData
 import com.example.domain.models.model_vo.PokemonListItemModelVo
 import com.example.domain.repository.PokemonListLocalRepositoryInterface
 import com.example.domain.repository.PokemonListRemoteRepositoryInterface
@@ -19,77 +17,51 @@ class PokemonsListInteractor(
 
     // Почему при переходе назад идёт новый запрос
 
-    // выделить методы из этого огромного
-
-    // Убрать лишние лоадеры и сообщения об ошибке, методы обновления ui
-
     // Проверка сети
 
-    // при запуске если есть сеть, псоле загрузки данных чистить БД
+    // clearDb
 
     // запрос на новый getItems делать если есть сеть, иначе он из БД добавит
 
     // Unit на Usecase с Mockito
-
-    // TODO убрать
-
-    private val pokemonVoList = mutableListOf<PokemonListItemModelVo>()
-    private val mUiStateMutableFlow = MutableStateFlow(UIStateEnum.DEFAULT)
+    
+    private val mUiStateMutableFlow = MutableStateFlow(UIStateEnum.DEFAULT_STATE)
     val uiStateFlow: StateFlow<UIStateEnum> = mUiStateMutableFlow
 
-    // TODO с Paging может и не надо
-    private fun getOffsetString(url: String?): String? {
-        return url?.substringAfter("=")?.substringBefore("&")
+    private suspend fun getPokemonByNameOrID(nameOrId: String): PokemonDto {
+        return remoteRepository.getPokemonByNameOrId(nameOrId)
     }
 
-    private fun getLimitString(url: String?): String {
-        return url?.substringAfterLast("=") ?: "0"
+    private suspend fun getPokemonListItemsFromDb(
+        pokemonVoList: MutableList<PokemonListItemModelVo>,
+        offset: String,
+        limit: String
+    ) {
+        try {
+            pokemonVoList.addAll(
+                pokemonLocalRepository.getPokemonsListWithNamesAndAvatarUrls(offset, limit)
+            )
+        } catch (e: Exception) {
+            error("Database Exception: ${e.localizedMessage}")
+        }
     }
 
-    suspend fun getPokemons(offset: String, limit: String): PokemonsResponse {
-        println("TAGGGGGG size = ${pokemonVoList.size}")
-        return remoteRepository.getPokemons(offset, limit)
-    }
-
-    /*suspend fun getPokemons(offset: String, limit: String): PokemonListData {
-        println("TAGGGGGG size = ${pokemonVoList.size}")
-       // pokemonVoList.clear()
-        mUiStateMutableFlow.value = UIStateEnum.START_LOADING
-
-        // TODO - try-catch
-        val pokemonResponse = remoteRepository.getPokemons(offset, limit)
-        val pOffset = getOffsetString(pokemonResponse.previous)
-        val nOffset = getOffsetString(pokemonResponse.next)
-        val pLimit = getLimitString(pokemonResponse.previous)
-        val nLimit = getLimitString(pokemonResponse.next)
-        val namesList = pokemonResponse.results.map { it.name }
-        // если сети нет, то грузим из БД
-        if (namesList.isEmpty()) {
-            mUiStateMutableFlow.value = UIStateEnum.NETWORK_ERROR
-            pokemonLocalRepository.getPokemonsListWithNamesAndAvatarUrls()
-        } else {
-            // сеть есть - идём за картинкой к покемону
+    suspend fun getPokemons(offset: String, limit: String): List<PokemonListItemModelVo> {
+        val pokemonVoList = mutableListOf<PokemonListItemModelVo>()
+        try {
+            val pokemonResponse = remoteRepository.getPokemons(offset, limit)
+            val namesList = pokemonResponse.results.map { it.name }
             namesList.forEach {
                 val pokemonDetailsDto = getPokemonByNameOrID(it)
                 pokemonVoList.add(pokemonDetailDtoToListItemVoMapper.toOutObject(pokemonDetailsDto))
-                //  заодно сразу грузим его в БД
                 pokemonLocalRepository.addPokemon(pokemonDetailsDto)
             }
+            mUiStateMutableFlow.value = UIStateEnum.NETWORK_OK
+        } catch (e: Exception) {
+            mUiStateMutableFlow.value = UIStateEnum.NETWORK_ERROR
+            getPokemonListItemsFromDb(pokemonVoList, offset, limit)
         }
-        mUiStateMutableFlow.value = UIStateEnum.END_LOADING
-        if (pokemonVoList.isEmpty()) {
-            mUiStateMutableFlow.value = UIStateEnum.DATA_NOT_FOUND
-        }
-        return PokemonListData(
-            previousOffset = pOffset,
-            nextOffset = nOffset,
-            itemListVo = pokemonVoList,
-            nextLimit = nLimit,
-            previousLimit = pLimit
-        )
-    }*/
-
-    suspend fun getPokemonByNameOrID(nameOrId: String): PokemonDto {
-        return remoteRepository.getPokemonByNameOrId(nameOrId)
+        return pokemonVoList
     }
+
 }

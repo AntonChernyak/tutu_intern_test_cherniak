@@ -45,14 +45,17 @@ class PokemonDetailsViewModel @Inject constructor(
 
     fun getPokemonDetailsData(pokemonName: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            mUiStateLiveData.postValue(UIStateEnum.START_LOADING)
-            val pokemonDetails = detailsInteractor.getPokemonByNameOrId(pokemonName)
-            mPokemoDetailsLiveData.postValue(pokemonDetails)
-            detailsRecyclerViewMap = pokemonDetails.detailsRecyclerViewMap
-            getItemDetailsList(pokemonDetails.detailsRecyclerViewMap)
-            mUiStateLiveData.postValue(UIStateEnum.END_LOADING)
-            //TODO try-catch
-            if (pokemonDetails.name.isBlank()) mUiStateLiveData.postValue(UIStateEnum.DATA_NOT_FOUND)
+            try {
+                mUiStateLiveData.postValue(UIStateEnum.START_LOADING)
+                val pokemonDetails = detailsInteractor.getPokemonByNameOrId(pokemonName)
+                mPokemoDetailsLiveData.postValue(pokemonDetails)
+                detailsRecyclerViewMap = pokemonDetails.detailsRecyclerViewMap
+                getItemDetailsList(detailsRecyclerViewMap)
+                mUiStateLiveData.postValue(UIStateEnum.END_LOADING)
+                if (pokemonDetails.name.isBlank()) mUiStateLiveData.postValue(UIStateEnum.DATA_NOT_FOUND)
+            } catch (e: Exception) {
+                error("Database Exception: ${e.localizedMessage}")
+            }
         }
     }
 

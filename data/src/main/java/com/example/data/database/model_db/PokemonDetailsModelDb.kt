@@ -10,6 +10,8 @@ class PokemonDetailsModelDb(
     @PrimaryKey
     @ColumnInfo(name = POKEMON_NAME_COLUMN_NAME)
     val pokemonName: String,
+    @ColumnInfo(name = "id")
+    val id: Int,
     @ColumnInfo(name = POKEMON_AVATAR_URL_COLUMN_NAME)
     val pokemonAvatarUrl: String,
     @ColumnInfo(name = "weight")

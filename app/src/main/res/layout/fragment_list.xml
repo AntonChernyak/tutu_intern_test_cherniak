@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -30,7 +29,13 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="100">
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/listSwipeToRefreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listRecyclerView"
@@ -38,25 +43,16 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:overScrollMode="never"
-            tools:itemCount="5"
+            tools:itemCount="2"
             tools:listitem="@layout/item_pokemon" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <ProgressBar
             android:id="@+id/listProgressBar"
-            android:layout_width="@dimen/progress_bar_size"
-            android:layout_height="@dimen/progress_bar_size"
+            android:layout_width="@dimen/progress_bar_size_64"
+            android:layout_height="@dimen/progress_bar_size_64"
             android:layout_gravity="center"
             android:indeterminateTint="@color/grey_224"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/noDataTextView"
-            style="@style/TextAppearance.MaterialComponents.Body1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="@string/no_data"
             android:visibility="gone" />
 
     </FrameLayout>

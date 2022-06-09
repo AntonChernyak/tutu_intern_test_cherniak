@@ -1,5 +1,6 @@
 package com.example.tutu_intern_test_cherniak.presentation.list
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,7 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
@@ -53,36 +56,25 @@ class PokemonListFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_list, container, false)
     }
 
+    @SuppressLint("UnsafeRepeatOnLifecycleDetector")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setRecyclerViewSettings()
-
-        listViewModel.getPokemons().observe(viewLifecycleOwner) {
-            lifecycleScope.launch {
-                pokemonsAdapter.submitData(it)
-            }
-        }
-
-/*        listViewModel.getUiState().observe(viewLifecycleOwner) { uiState ->
-            updateUiState(uiState)
-        }*/
-
+        setOnRefreshListener()
+        setPokemonListLiveDataObserver()
+        setUiStateLiveDataObserver()
     }
 
     private fun setRecyclerViewSettings() {
         binding.listRecyclerView.apply {
             adapter = pokemonsAdapter.withLoadStateHeaderAndFooter(
-                header = PokemonLoadStateAdapter { refreshAdapterDataButtonOnClick(it) },
-                footer = PokemonLoadStateAdapter { refreshAdapterDataButtonOnClick(it) }
+                header = PokemonLoadStateAdapter(),
+                footer = PokemonLoadStateAdapter()
             )
             layoutManager =
                 LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
         }
         setLoadStateListener()
-    }
-
-    private fun refreshAdapterDataButtonOnClick(view: View) {
-        pokemonsAdapter.refresh()
     }
 
     private fun setLoadStateListener() {
@@ -91,12 +83,6 @@ class PokemonListFragment : Fragment() {
             with(binding) {
                 listRecyclerView.isVisible = refreshState != LoadState.Loading
                 listProgressBar.isVisible = refreshState == LoadState.Loading
-                if (refreshState is LoadState.Error) {
-                    noDataTextView.text = resources.getString(
-                        R.string.error_project_message,
-                        refreshState.error.localizedMessage ?: ""
-                    )
-                }
             }
         }
     }
@@ -108,18 +94,35 @@ class PokemonListFragment : Fragment() {
         findNavController().navigate(directions)
     }
 
-    private fun updateUiState(uiStateEnum: UIStateEnum) {
-        when (uiStateEnum) {
-            UIStateEnum.NETWORK_ERROR -> binding.noNetworkTextView.visibility = View.VISIBLE
-            UIStateEnum.START_LOADING -> binding.listProgressBar.visibility = View.VISIBLE
-            UIStateEnum.END_LOADING -> binding.listProgressBar.visibility = View.GONE
-            UIStateEnum.DATA_NOT_FOUND -> binding.noDataTextView.visibility = View.VISIBLE
-            UIStateEnum.DEFAULT -> {
-                binding.noNetworkTextView.visibility = View.GONE
-                binding.listProgressBar.visibility = View.GONE
-                binding.noDataTextView.visibility = View.GONE
+    private fun setOnRefreshListener(){
+        binding.listSwipeToRefreshLayout.setOnRefreshListener {
+            binding.listSwipeToRefreshLayout.isRefreshing = false
+            pokemonsAdapter.refresh()
+        }
+    }
+
+    @SuppressLint("UnsafeRepeatOnLifecycleDetector")
+    private fun setPokemonListLiveDataObserver(){
+        listViewModel.getPokemons().observe(viewLifecycleOwner) {
+            lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    pokemonsAdapter.submitData(it)
+                }
             }
         }
     }
 
+    private fun setUiStateLiveDataObserver(){
+        listViewModel.getUiState().observe(viewLifecycleOwner) { uiState ->
+            updateUiState(uiState)
+        }
+    }
+
+    private fun updateUiState(uiStateEnum: UIStateEnum) {
+        if (uiStateEnum == UIStateEnum.NETWORK_ERROR) {
+            binding.noNetworkTextView.visibility = View.VISIBLE
+        } else if (uiStateEnum == UIStateEnum.NETWORK_OK) {
+            binding.noNetworkTextView.visibility = View.GONE
+        }
+    }
 }

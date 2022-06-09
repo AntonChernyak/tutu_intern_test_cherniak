@@ -17,7 +17,11 @@ interface PokemonDao {
     @Query("SELECT * FROM $POKEMONS_TABLE_NAME WHERE name =:pokemonName")
     suspend fun getPokemonDetailsFromDb(pokemonName: String): PokemonDetailsModelDb
 
-    @Query("SELECT name, avatar_url FROM $POKEMONS_TABLE_NAME")
-    suspend fun getPokemonsListWithNamesAndAvatarUrls(): List<PokemonListItemModelDb>
+    @Query("SELECT name, avatar_url FROM $POKEMONS_TABLE_NAME ORDER BY id LIMIT :limit OFFSET :offset ")
+    suspend fun getPokemonsListWithNamesAndAvatarUrls(
+        offset: String, limit: String
+    ): List<PokemonListItemModelDb>
 
+    @Query("DELETE FROM $POKEMONS_TABLE_NAME")
+    suspend fun clearDatabase()
 }

@@ -16,9 +16,7 @@ class PokemonListViewModel @Inject constructor(
     private val pokemonsListInteractor: PokemonsListInteractor
 ) : ViewModel() {
 
-
-    // TODO mb Dagger
-    private fun createPager() : Pager<Int, PokemonListItemModelVo>{
+   private fun createPager() : Pager<Int, PokemonListItemModelVo>{
         return Pager(config = PagingConfig(
             pageSize = LIMIT_SIZE,
             prefetchDistance = LIMIT_SIZE - 4 ,

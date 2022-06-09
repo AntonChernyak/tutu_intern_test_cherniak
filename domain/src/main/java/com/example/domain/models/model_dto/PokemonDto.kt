@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 class PokemonDto(
+    val id: Int,
     val name: String,
     val height: Int,
     val weight: Int,

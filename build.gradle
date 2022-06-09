@@ -68,4 +68,7 @@ ext{
 
     // Paging Library 3.0
     paging_library_version = '3.2.0-alpha01'
+
+    // Swipe To Refresh
+    swipe_to_refresh_version = '1.1.0'
 }

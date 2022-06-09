@@ -18,7 +18,15 @@ class PokemonListLocalRepository @Inject constructor(
         dao.addPokemonToDb(detailsDtoToDetailsDbMapper.toOutObject(pokemonDetailsDto))
     }
 
-    override suspend fun getPokemonsListWithNamesAndAvatarUrls(): List<PokemonListItemModelVo> {
-        return pokemonListItemDbToListItemVo.toOutObject(dao.getPokemonsListWithNamesAndAvatarUrls())
+    override suspend fun getPokemonsListWithNamesAndAvatarUrls(
+        offset: String, limit: String
+    ): List<PokemonListItemModelVo> {
+        return pokemonListItemDbToListItemVo.toOutObject(
+            dao.getPokemonsListWithNamesAndAvatarUrls(offset, limit)
+        )
+    }
+
+    override suspend fun clearDatabase() {
+        dao.clearDatabase()
     }
 }

@@ -5,8 +5,8 @@
 
     <ProgressBar
         android:id="@+id/listLoadingProgressBar"
-        android:layout_width="@dimen/progress_bar_size"
-        android:layout_height="@dimen/progress_bar_size"
+        android:layout_width="@dimen/progress_bar_size_64"
+        android:layout_height="@dimen/progress_bar_size_64"
         android:layout_gravity="center"
         android:indeterminateTint="@color/grey_224" />
 </FrameLayout>

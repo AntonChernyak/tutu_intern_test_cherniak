@@ -86,7 +86,7 @@ class PokemonDetailsFragment : Fragment() {
             UIStateEnum.START_LOADING -> binding.detailsProgressBar.visibility = View.VISIBLE
             UIStateEnum.END_LOADING -> binding.detailsProgressBar.visibility = View.GONE
             UIStateEnum.DATA_NOT_FOUND -> binding.detailsNoDataTextView.visibility = View.VISIBLE
-            UIStateEnum.DEFAULT -> {
+            UIStateEnum.DEFAULT_STATE -> {
                 binding.detailsNoNetworkTextView.visibility = View.GONE
                 binding.detailsProgressBar.visibility = View.GONE
                 binding.detailsNoDataTextView.visibility = View.GONE

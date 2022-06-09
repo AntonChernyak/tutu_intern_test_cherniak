@@ -60,6 +60,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.lifecycle_viewmodel_version"
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycle_extensions_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.lifecycle_livedata_version"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$rootProject.lifecycle_viewmodel_version"
 
     // Dagger
     implementation "com.google.dagger:dagger:$rootProject.dagger_version"
@@ -97,4 +98,7 @@ dependencies {
 
     // PagingLibrary 3.0
     implementation "androidx.paging:paging-runtime-ktx:$rootProject.paging_library_version"
+
+    // SwipeToRefresh
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$rootProject.swipe_to_refresh_version"
 }

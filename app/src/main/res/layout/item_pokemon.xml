@@ -19,8 +19,8 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/itemAvatarImageView"
-            android:layout_width="@dimen/item_avatar_size"
-            android:layout_height="@dimen/item_avatar_size"
+            android:layout_width="@dimen/item_avatar_size_128"
+            android:layout_height="@dimen/item_avatar_size_128"
             android:layout_gravity="center"
             android:contentDescription="@string/pokemon_avatar"
             android:elevation="@dimen/item_avatar_elevation_4"

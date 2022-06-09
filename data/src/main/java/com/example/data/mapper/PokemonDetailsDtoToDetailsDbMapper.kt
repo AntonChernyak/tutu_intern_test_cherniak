@@ -13,6 +13,7 @@ class PokemonDetailsDtoToDetailsDbMapper : MapperInterface<PokemonDetailsModelDb
 
         return with(inObject) {
             PokemonDetailsModelDb(
+                id = id,
                 pokemonName = name,
                 pokemonAvatarUrl = sprites.frontDefaultUrl,
                 weight = weight,

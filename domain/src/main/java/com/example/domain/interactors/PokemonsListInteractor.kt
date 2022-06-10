@@ -13,8 +13,6 @@ class PokemonsListInteractor(
     private val pokemonDetailDtoToListItemVoMapper: PokemonDetailsDtoToListItemVoMapper,
 ) {
 
-    // Unit на Usecase с Mockito
-
     private val mUiStateMutableFlow = MutableStateFlow(UIStateEnum.DEFAULT_STATE)
     val uiStateFlow: StateFlow<UIStateEnum> = mUiStateMutableFlow
 

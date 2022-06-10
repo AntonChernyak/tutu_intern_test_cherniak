@@ -3,7 +3,7 @@ package com.example.tutu_intern_test_cherniak.presentation.list
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
- import androidx.fragment.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,6 +52,13 @@ class PokemonListFragment : Fragment() {
             .build().inject(this)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (savedInstanceState == null && this@PokemonListFragment.checkNetworkConnect()) {
+            listViewModel.clearDatabase()
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -67,13 +74,6 @@ class PokemonListFragment : Fragment() {
         setPokemonListLiveDataObserver()
         setUiStateLiveDataObserver()
         setNetworkListener()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (savedInstanceState == null && this@PokemonListFragment.checkNetworkConnect()) {
-            listViewModel.clearDatabase()
-        }
     }
 
     private fun setRecyclerViewSettings() {

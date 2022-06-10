@@ -59,8 +59,9 @@ class PokemonDetailsFragment : Fragment() {
         binding.detailsFragmentToolbar.title =resources.getString(R.string.pokemon, saveArguments.pokemonName)
         setNavigateUpButtonToToolbar(binding.detailsFragmentToolbar)
         setNetworkCallback()
-
-        pokemonDetailsViewModel.getPokemonDetailsData(saveArguments.pokemonName)
+        if (savedInstanceState == null) {
+            pokemonDetailsViewModel.getPokemonDetailsData(saveArguments.pokemonName)
+        }
         setLoadDataObserver()
         setDataToDetailsRecyclerView()
         setUiStateObserver()

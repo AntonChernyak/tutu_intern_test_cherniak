@@ -5,7 +5,7 @@ enum class UIStateEnum {
     START_LOADING,
     END_LOADING,
     NETWORK_ERROR,
-    NETWORK_OK,
+    NETWORK_AVAILABLE,
     DATA_NOT_FOUND,
     DATA_FOUND
 }

@@ -121,7 +121,7 @@ class PokemonListFragment : Fragment() {
     private fun updateUiState(uiStateEnum: UIStateEnum) {
         if (uiStateEnum == UIStateEnum.NETWORK_ERROR) {
             binding.noNetworkTextView.visibility = View.VISIBLE
-        } else if (uiStateEnum == UIStateEnum.NETWORK_OK) {
+        } else if (uiStateEnum == UIStateEnum.NETWORK_AVAILABLE) {
             binding.noNetworkTextView.visibility = View.GONE
         }
     }

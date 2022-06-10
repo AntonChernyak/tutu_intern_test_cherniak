@@ -13,18 +13,14 @@ class PokemonsListInteractor(
     private val pokemonDetailDtoToListItemVoMapper: PokemonDetailsDtoToListItemVoMapper,
 ) {
 
-    // Обработка ошибок и проверить повторный запрос
-
     // Почему при переходе назад идёт новый запрос
-
-    // Проверка сети
 
     // clearDb
 
     // запрос на новый getItems делать если есть сеть, иначе он из БД добавит
 
     // Unit на Usecase с Mockito
-    
+
     private val mUiStateMutableFlow = MutableStateFlow(UIStateEnum.DEFAULT_STATE)
     val uiStateFlow: StateFlow<UIStateEnum> = mUiStateMutableFlow
 
@@ -56,7 +52,7 @@ class PokemonsListInteractor(
                 pokemonVoList.add(pokemonDetailDtoToListItemVoMapper.toOutObject(pokemonDetailsDto))
                 pokemonLocalRepository.addPokemon(pokemonDetailsDto)
             }
-            mUiStateMutableFlow.value = UIStateEnum.NETWORK_OK
+            mUiStateMutableFlow.value = UIStateEnum.NETWORK_AVAILABLE
         } catch (e: Exception) {
             mUiStateMutableFlow.value = UIStateEnum.NETWORK_ERROR
             getPokemonListItemsFromDb(pokemonVoList, offset, limit)

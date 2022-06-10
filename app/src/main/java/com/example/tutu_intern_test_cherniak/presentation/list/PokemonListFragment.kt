@@ -3,7 +3,7 @@ package com.example.tutu_intern_test_cherniak.presentation.list
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,9 +22,12 @@ import com.example.domain.models.model_vo.PokemonListItemModelVo
 import com.example.tutu_intern_test_cherniak.App
 import com.example.tutu_intern_test_cherniak.R
 import com.example.tutu_intern_test_cherniak.databinding.FragmentListBinding
+import com.example.tutu_intern_test_cherniak.presentation.extensions.checkNetworkConnect
+import com.example.tutu_intern_test_cherniak.presentation.extensions.registerNetworkCallback
 import com.example.tutu_intern_test_cherniak.presentation.list.pokemonslist_adapter.PokemonItemViewHolder
 import com.example.tutu_intern_test_cherniak.presentation.list.pokemonslist_adapter.PokemonLoadStateAdapter
 import com.example.tutu_intern_test_cherniak.presentation.list.pokemonslist_adapter.PokemonPagingAdapter
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Inject
@@ -63,6 +66,14 @@ class PokemonListFragment : Fragment() {
         setOnRefreshListener()
         setPokemonListLiveDataObserver()
         setUiStateLiveDataObserver()
+        setNetworkListener()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (savedInstanceState == null && this@PokemonListFragment.checkNetworkConnect()) {
+            listViewModel.clearDatabase()
+        }
     }
 
     private fun setRecyclerViewSettings() {
@@ -94,7 +105,7 @@ class PokemonListFragment : Fragment() {
         findNavController().navigate(directions)
     }
 
-    private fun setOnRefreshListener(){
+    private fun setOnRefreshListener() {
         binding.listSwipeToRefreshLayout.setOnRefreshListener {
             binding.listSwipeToRefreshLayout.isRefreshing = false
             pokemonsAdapter.refresh()
@@ -102,27 +113,46 @@ class PokemonListFragment : Fragment() {
     }
 
     @SuppressLint("UnsafeRepeatOnLifecycleDetector")
-    private fun setPokemonListLiveDataObserver(){
-        listViewModel.getPokemons().observe(viewLifecycleOwner) {
+    private fun setPokemonListLiveDataObserver() {
+        listViewModel.pokemonsLiveData.observe(viewLifecycleOwner) { flow ->
             lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    pokemonsAdapter.submitData(it)
+                    flow.collectLatest { pagingData ->
+                        pokemonsAdapter.submitData(pagingData)
+                    }
                 }
             }
         }
     }
 
-    private fun setUiStateLiveDataObserver(){
+    private fun setUiStateLiveDataObserver() {
         listViewModel.getUiState().observe(viewLifecycleOwner) { uiState ->
             updateUiState(uiState)
         }
     }
 
+    @SuppressLint("UnsafeRepeatOnLifecycleDetector")
     private fun updateUiState(uiStateEnum: UIStateEnum) {
-        if (uiStateEnum == UIStateEnum.NETWORK_ERROR) {
-            binding.noNetworkTextView.visibility = View.VISIBLE
-        } else if (uiStateEnum == UIStateEnum.NETWORK_AVAILABLE) {
-            binding.noNetworkTextView.visibility = View.GONE
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                if (uiStateEnum == UIStateEnum.NETWORK_ERROR) {
+                    binding.noNetworkTextView.visibility = View.VISIBLE
+                } else if (uiStateEnum == UIStateEnum.NETWORK_AVAILABLE) {
+                    binding.noNetworkTextView.visibility = View.GONE
+                }
+            }
         }
+    }
+
+    private fun setNetworkListener() {
+        if (this@PokemonListFragment.checkNetworkConnect()) {
+            updateUiState(UIStateEnum.NETWORK_AVAILABLE)
+        } else updateUiState(UIStateEnum.NETWORK_ERROR)
+
+        this@PokemonListFragment.registerNetworkCallback({
+            updateUiState(UIStateEnum.NETWORK_AVAILABLE)
+        }, {
+            updateUiState(UIStateEnum.NETWORK_ERROR)
+        })
     }
 }

@@ -3,6 +3,7 @@ package com.example.tutu_intern_test_cherniak.presentation.list
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -22,16 +23,17 @@ import com.example.domain.models.model_vo.PokemonListItemModelVo
 import com.example.tutu_intern_test_cherniak.App
 import com.example.tutu_intern_test_cherniak.R
 import com.example.tutu_intern_test_cherniak.databinding.FragmentListBinding
-import com.example.tutu_intern_test_cherniak.presentation.extensions.checkNetworkConnect
-import com.example.tutu_intern_test_cherniak.presentation.extensions.registerNetworkCallback
+import com.example.tutu_intern_test_cherniak.presentation.extensions.*
 import com.example.tutu_intern_test_cherniak.presentation.list.pokemonslist_adapter.PokemonItemViewHolder
 import com.example.tutu_intern_test_cherniak.presentation.list.pokemonslist_adapter.PokemonLoadStateAdapter
 import com.example.tutu_intern_test_cherniak.presentation.list.pokemonslist_adapter.PokemonPagingAdapter
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Inject
 
+@FlowPreview
 @ExperimentalSerializationApi
 class PokemonListFragment : Fragment() {
 
@@ -54,7 +56,7 @@ class PokemonListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (savedInstanceState == null && this@PokemonListFragment.checkNetworkConnect()) {
+        if (savedInstanceState == null && this@PokemonListFragment.checkNetworkConnectAll()) {
             listViewModel.clearDatabase()
         }
     }
@@ -149,7 +151,7 @@ class PokemonListFragment : Fragment() {
     }
 
     private fun setNetworkListener() {
-        if (this@PokemonListFragment.checkNetworkConnect()) {
+        if (this@PokemonListFragment.checkNetworkConnectAll()) {
             updateUiState(UIStateEnum.NETWORK_AVAILABLE)
         } else updateUiState(UIStateEnum.NETWORK_ERROR)
 

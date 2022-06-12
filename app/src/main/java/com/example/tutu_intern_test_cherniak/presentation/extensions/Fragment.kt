@@ -23,7 +23,7 @@ fun Fragment.registerNetworkCallback(onAvailable: () -> Unit, onLost: () -> Unit
     })
 }
 
-fun Fragment.checkNetworkConnect(): Boolean {
+fun Fragment.checkNetworkConnectAll(): Boolean {
     var result = false
     val connectivityManager =
         requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

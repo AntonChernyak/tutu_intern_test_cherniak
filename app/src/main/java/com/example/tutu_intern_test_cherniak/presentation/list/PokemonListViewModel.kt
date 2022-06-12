@@ -51,5 +51,4 @@ class PokemonListViewModel @Inject constructor(
             pokemonsListInteractor.clearDatabase()
         }
     }
-
 }

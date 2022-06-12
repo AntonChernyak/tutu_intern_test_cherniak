@@ -18,7 +18,7 @@ import com.example.tutu_intern_test_cherniak.App
 import com.example.tutu_intern_test_cherniak.R
 import com.example.tutu_intern_test_cherniak.databinding.FragmentDetailsBinding
 import com.example.tutu_intern_test_cherniak.presentation.details.pokemondetails_adapter.PokemonDetailsDiffAdapter
-import com.example.tutu_intern_test_cherniak.presentation.extensions.checkNetworkConnect
+import com.example.tutu_intern_test_cherniak.presentation.extensions.checkNetworkConnectAll
 import com.example.tutu_intern_test_cherniak.presentation.extensions.loadImage
 import com.example.tutu_intern_test_cherniak.presentation.extensions.registerNetworkCallback
 import com.example.tutu_intern_test_cherniak.presentation.extensions.setNavigateUpButtonToToolbar
@@ -74,7 +74,7 @@ class PokemonDetailsFragment : Fragment() {
             weightTextView.text = pokemonDetailsModelVo.weight.toString()
             heightTextView.text = pokemonDetailsModelVo.height.toString()
 
-            if (this@PokemonDetailsFragment.checkNetworkConnect()) {
+            if (this@PokemonDetailsFragment.checkNetworkConnectAll()) {
                 updateUiState(UIStateEnum.NETWORK_AVAILABLE)
             } else updateUiState(UIStateEnum.NETWORK_ERROR)
         }

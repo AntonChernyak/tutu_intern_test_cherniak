@@ -2,10 +2,9 @@ package com.example.tutu_intern_test_cherniak.di
 
 import com.example.domain.interactors.PokemonDetailsInteractor
 import com.example.domain.interactors.PokemonsListInteractor
-import com.example.data.mapper.PokemonDetailsDtoToDetailsDbMapper
-import com.example.data.mapper.PokemonListItemModelDbToListItemModelVoMapper
 import com.example.domain.models.mapper.PokemonDetailsDtoToListItemVoMapper
 import com.example.domain.repository.PokemonDetailsLocalRepositoryInterface
+import com.example.domain.repository.PokemonDetailsRemoteRepositoryInterface
 import com.example.domain.repository.PokemonListLocalRepositoryInterface
 import com.example.domain.repository.PokemonListRemoteRepositoryInterface
 import dagger.Module
@@ -24,9 +23,10 @@ class DomainModule {
     @Provides
     @Singleton
     fun providesPokemonDetailsInteractor(
-        localRepository: PokemonDetailsLocalRepositoryInterface
+        localRepository: PokemonDetailsLocalRepositoryInterface,
+        remoteRepository: PokemonDetailsRemoteRepositoryInterface
     ): PokemonDetailsInteractor {
-        return PokemonDetailsInteractor(localRepository)
+        return PokemonDetailsInteractor(localRepository, remoteRepository)
     }
 
     @Provides

@@ -6,12 +6,15 @@ import com.example.data.database.PokemonDao
 import com.example.data.database.PokemonDatabase
 import com.example.data.mapper.PokemonDetailsDbToDetailsVoMapper
 import com.example.data.mapper.PokemonDetailsDtoToDetailsDbMapper
+import com.example.data.mapper.PokemonDetailsDtoToDetailsVoMapper
 import com.example.data.mapper.PokemonListItemModelDbToListItemModelVoMapper
 import com.example.data.network.PokemonApiInterface
 import com.example.data.repository.PokemonDetailsLocalRepository
+import com.example.data.repository.PokemonDetailsRemoteRepository
 import com.example.data.repository.PokemonListLocalRepository
 import com.example.data.repository.PokemonRemoteRepository
 import com.example.domain.repository.PokemonDetailsLocalRepositoryInterface
+import com.example.domain.repository.PokemonDetailsRemoteRepositoryInterface
 import com.example.domain.repository.PokemonListLocalRepositoryInterface
 import com.example.domain.repository.PokemonListRemoteRepositoryInterface
 import com.example.tutu_intern_test_cherniak.App
@@ -86,6 +89,12 @@ class DataModule {
         return PokemonDetailsDbToDetailsVoMapper(context)
     }
 
+    @Provides
+    @Singleton
+    fun providesDetailsDtoToDetailsVoMapper(context: Context): PokemonDetailsDtoToDetailsVoMapper {
+        return PokemonDetailsDtoToDetailsVoMapper(context)
+    }
+
     @Singleton
     @Provides
     fun providePokemonDetailsDtoToDetailsDbMapper(): PokemonDetailsDtoToDetailsDbMapper {
@@ -97,7 +106,6 @@ class DataModule {
     fun providePokemonListItemModelDbToListItemModelVoMapper(): PokemonListItemModelDbToListItemModelVoMapper {
         return PokemonListItemModelDbToListItemModelVoMapper()
     }
-
 
     @Singleton
     @Provides
@@ -122,6 +130,15 @@ class DataModule {
         pokemonDetailsDbToDetailsVoMapper: PokemonDetailsDbToDetailsVoMapper
     ): PokemonDetailsLocalRepositoryInterface {
         return PokemonDetailsLocalRepository(dao, pokemonDetailsDbToDetailsVoMapper)
+    }
+
+    @Singleton
+    @Provides
+    fun provideRemoteDetailsRepository(
+        api: PokemonApiInterface,
+        pokemonDetailsDtoToDetailsVoMapper: PokemonDetailsDtoToDetailsVoMapper
+    ): PokemonDetailsRemoteRepositoryInterface {
+        return PokemonDetailsRemoteRepository(api, pokemonDetailsDtoToDetailsVoMapper)
     }
 
 }

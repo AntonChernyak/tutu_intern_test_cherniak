@@ -30,6 +30,11 @@ class PokemonsListInteractor(
         }
     }
 
+    private fun setNoDataUiState(pokemonVoList: List<PokemonListItemModelVo>){
+        if (pokemonVoList.isEmpty()) mUiStateMutableFlow.value = UIStateEnum.DATA_NOT_FOUND
+        else mUiStateMutableFlow.value = UIStateEnum.DATA_FOUND
+    }
+
     suspend fun getPokemonNamesList(offset: String, limit: String): List<String> {
         val pokemonResponse = remoteRepository.getPokemons(offset, limit)
         return pokemonResponse.results.map { it.name }
@@ -49,6 +54,7 @@ class PokemonsListInteractor(
         } catch (e: Exception) {
             getPokemonListItemsFromDb(pokemonVoList, offset, limit)
         }
+        setNoDataUiState(pokemonVoList)
         return pokemonVoList
     }
 

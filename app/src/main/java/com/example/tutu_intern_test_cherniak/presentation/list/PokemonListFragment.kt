@@ -139,6 +139,10 @@ class PokemonListFragment : Fragment() {
                     binding.noNetworkTextView.visibility = View.VISIBLE
                 } else if (uiStateEnum == UIStateEnum.NETWORK_AVAILABLE) {
                     binding.noNetworkTextView.visibility = View.GONE
+                } else if (uiStateEnum == UIStateEnum.DATA_NOT_FOUND && pokemonsAdapter.itemCount == 0) {
+                    binding.noDataTextView.visibility = View.VISIBLE
+                } else if (uiStateEnum == UIStateEnum.DATA_FOUND) {
+                    binding.noDataTextView.visibility = View.GONE
                 }
             }
         }

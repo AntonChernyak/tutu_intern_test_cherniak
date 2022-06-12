@@ -2,7 +2,6 @@ package com.example.tutu_intern_test_cherniak.presentation.extensions
 
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
-import androidx.annotation.IntegerRes
 import com.bumptech.glide.Glide
 import com.example.tutu_intern_test_cherniak.R
 

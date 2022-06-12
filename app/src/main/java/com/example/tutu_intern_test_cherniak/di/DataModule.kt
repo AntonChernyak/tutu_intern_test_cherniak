@@ -17,7 +17,6 @@ import com.example.domain.repository.PokemonDetailsLocalRepositoryInterface
 import com.example.domain.repository.PokemonDetailsRemoteRepositoryInterface
 import com.example.domain.repository.PokemonListLocalRepositoryInterface
 import com.example.domain.repository.PokemonListRemoteRepositoryInterface
-import com.example.tutu_intern_test_cherniak.App
 import com.example.tutu_intern_test_cherniak.BuildConfig
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module

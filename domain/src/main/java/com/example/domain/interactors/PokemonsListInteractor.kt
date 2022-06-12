@@ -16,10 +16,6 @@ class PokemonsListInteractor(
     private val mUiStateMutableFlow = MutableStateFlow(UIStateEnum.DEFAULT_STATE)
     val uiStateFlow: StateFlow<UIStateEnum> = mUiStateMutableFlow
 
-    private suspend fun getPokemonByNameOrID(nameOrId: String): PokemonDto {
-        return remoteRepository.getPokemonByNameOrId(nameOrId)
-    }
-
     private suspend fun getPokemonListItemsFromDb(
         pokemonVoList: MutableList<PokemonListItemModelVo>,
         offset: String,
@@ -34,14 +30,19 @@ class PokemonsListInteractor(
         }
     }
 
+    suspend fun getPokemonNamesList(offset: String, limit: String): List<String> {
+        val pokemonResponse = remoteRepository.getPokemons(offset, limit)
+        return pokemonResponse.results.map { it.name }
+    }
+
     suspend fun getPokemons(offset: String, limit: String): List<PokemonListItemModelVo> {
         val pokemonVoList = mutableListOf<PokemonListItemModelVo>()
         try {
-            val pokemonResponse = remoteRepository.getPokemons(offset, limit)
-            val namesList = pokemonResponse.results.map { it.name }
-            namesList.forEach {
-                val pokemonDetailsDto = getPokemonByNameOrID(it)
-                pokemonVoList.add(pokemonDetailDtoToListItemVoMapper.toOutObject(pokemonDetailsDto))
+            val namesList = getPokemonNamesList(offset, limit)
+            namesList.forEach {nameOrId ->
+                val pokemonDetailsDto = remoteRepository.getPokemonByNameOrId(nameOrId)
+                val itemListVo = mapDetailsDtoObjectToListItemVo(pokemonDetailsDto)
+                pokemonVoList.add(itemListVo)
                 pokemonLocalRepository.addPokemon(pokemonDetailsDto)
             }
             mUiStateMutableFlow.value = UIStateEnum.NETWORK_AVAILABLE
@@ -53,6 +54,10 @@ class PokemonsListInteractor(
 
     suspend fun clearDatabase(){
         pokemonLocalRepository.clearDatabase()
+    }
+
+    fun mapDetailsDtoObjectToListItemVo(pokemonDetailsDto: PokemonDto) : PokemonListItemModelVo{
+        return pokemonDetailDtoToListItemVoMapper.toOutObject(pokemonDetailsDto)
     }
 
 }

@@ -5,8 +5,12 @@ plugins {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+test {
+    useJUnitPlatform()
 }
 
 dependencies {
@@ -14,4 +18,10 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$rootProject.ktx_serialization_json_version"
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutines_version"
+
+    // Tests
+    testImplementation "org.junit.jupiter:junit-jupiter:$rootProject.junit_jupiter_version"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$rootProject.coroutines_version"
+    testImplementation "org.mockito:mockito-core:$rootProject.mockito_version"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$rootProject.mockito_kotlin_version"
 }

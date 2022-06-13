@@ -52,8 +52,11 @@ class PokemonDetailsViewModel @Inject constructor(
                 detailsRecyclerViewMap = pokemonDetails.detailsRecyclerViewMap
                 getItemDetailsList(detailsRecyclerViewMap)
                 mUiStateLiveData.postValue(UIStateEnum.END_LOADING)
-                if (pokemonDetails.name.isBlank()) mUiStateLiveData.postValue(UIStateEnum.DATA_NOT_FOUND)
+                if (pokemonDetails.name.isBlank()) {
+                    mUiStateLiveData.postValue(UIStateEnum.DATA_NOT_FOUND)
+                } else mUiStateLiveData.postValue(UIStateEnum.DATA_FOUND)
             } catch (e: Exception) {
+                mUiStateLiveData.postValue(UIStateEnum.DATA_NOT_FOUND)
                 error("Database Exception: ${e.localizedMessage}")
             }
         }
